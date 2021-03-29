@@ -26,7 +26,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'package:medi_mate/Nav.dart';
+import 'package:medi_mate/Notification.dart';
 //import 'NotiTry.dart';
 //import 'Notification.dart';
 Map<int, Color> color = {
