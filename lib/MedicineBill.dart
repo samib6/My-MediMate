@@ -32,7 +32,7 @@ class _MedicineBillState extends State<MedicineBillPage> {
             title: Image.asset("assets/logo_text.png",width:200,height:100),
             centerTitle: true,
           )),
-      drawer: NavDrawer(userName: userName,),
+      drawer: NavDrawer(userName: userName,userPhone: userPhone,),
       body: SingleChildScrollView (child : MedicineBillForm(userName: userName,userPhone: userPhone,),),
     );
   }
@@ -66,7 +66,7 @@ class _MedicineBillFormState extends State<MedicineBillForm> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MedicineBill_image(userName: userName,),
+                    builder: (context) => MedicineBill_image(userName: userName,userPhone: userPhone,),
                   ));
             },
           ),

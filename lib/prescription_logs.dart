@@ -24,7 +24,7 @@ class _Prescription_LogsState extends State<Prescription_Logs> {
             title: Image.asset("assets/logo_text.png",width:200,height:100),
             centerTitle: true,
           )),
-          drawer:NavDrawer(userName: userName,),
+          drawer:NavDrawer(userName: userName,userPhone: userPhone,),
       body: SingleChildScrollView (child : Logs(userPhone: userPhone,),),
     );
   }
@@ -187,6 +187,11 @@ class _LogsState extends State<Logs> {
               ]),
             onPressed:() async{
               List<String> logpopup = await d.getMedicineLogsinfo(userPhone, data[i+2], data[i], data[i+1]);
+              showDialog(
+                context: context,
+                builder: (BuildContext context) =>
+                    _buildAboutDialog(context,logpopup),
+              );
             },
         ),
         ),
@@ -194,5 +199,72 @@ class _LogsState extends State<Logs> {
       );
     }
     return MedicineList;
+  }
+  Widget _buildAboutDialog(BuildContext context,List<String> logpopup) {
+    return AlertDialog(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+
+        children: <Widget>[
+          ..._eachMedicine(logpopup),
+        ],
+      ),
+    );
+  }
+  List<Widget> _eachMedicine(List<String> logpopup)
+  {
+    List<Widget> eachMedicine = [];
+    for(int i =0;i<logpopup.length;i+=4)
+      {
+        eachMedicine.add(Table(
+            children: [
+                TableRow(
+                    decoration: BoxDecoration(
+                    color: const Color(0xFFFAC7C7)),
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.only(top: 0.0),
+                        child: Center(
+                            child: Text(
+                              logpopup[i],
+                              textScaleFactor: 1.2,
+                              textAlign: TextAlign.center,
+                            ))
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.only(top: 0.0),
+                        child: Center(
+                            child: Text("Breakfast : "+
+                              logpopup[i+1],
+                              textScaleFactor: 1.2,
+                              textAlign: TextAlign.center,
+                            ))
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.only(top: 0.0),
+                        child: Center(
+                            child: Text("Lunch : "+
+                                logpopup[i+2],
+                              textScaleFactor: 1.2,
+                              textAlign: TextAlign.center,
+                            ))
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.only(top: 0.0),
+                        child: Center(
+                            child: Text("Dinner : "+
+                                logpopup[i+3],
+                              textScaleFactor: 1.2,
+                              textAlign: TextAlign.center,
+                            ))
+                    ),
+                  ],
+                ),
+            ],
+          )
+        );
+      }
+    return eachMedicine;
   }
 }

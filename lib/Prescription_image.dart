@@ -8,15 +8,17 @@ enum TtsState { playing, stopped }
 
 class Prescription_Image extends StatefulWidget {
   String userName;
-  Prescription_Image({Key key, @required this.userName}) : super(key: key);
+  String userPhone;
+  Prescription_Image({Key key, @required this.userName,@required this.userPhone}) : super(key: key);
 
   @override
-  _ImageState createState() => _ImageState(userName: userName);
+  _ImageState createState() => _ImageState(userName: userName,userPhone: userPhone);
 }
 
 class _ImageState extends State<Prescription_Image> {
   String userName;
-  _ImageState({Key key, @required this.userName});
+  String userPhone;
+  _ImageState({Key key, @required this.userName,@required this.userPhone});
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -32,7 +34,7 @@ class _ImageState extends State<Prescription_Image> {
             title: Image.asset("assets/logo_text.png",width:200,height:100),
             centerTitle: true,
           )),
-      drawer: NavDrawer(userName: userName,),
+      drawer: NavDrawer(userName: userName,userPhone: userPhone,),
       body: SingleChildScrollView (child : PrescriptionImageForm(),),
     );
   }

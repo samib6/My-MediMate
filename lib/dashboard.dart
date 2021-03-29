@@ -5,11 +5,15 @@ import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
+import 'package:medi_mate/Chatbot.dart';
 import 'package:medi_mate/Database.dart';
 import 'prescription_logs.dart';
 import 'Prescription.dart';
 import 'MedicineBill.dart';
 import 'Profile.dart';
+import 'package:flutter_tts/flutter_tts.dart';
+
+enum TtsState { playing, stopped }
 
 class Dashboard extends StatefulWidget {
   String userPhone;
@@ -25,6 +29,73 @@ class _DashboardState extends State<Dashboard> {
   _DashboardState({Key key, @required this.userPhone,this.userName});
   Database d = new Database();
   var flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+  FlutterTts flutterTts;
+  dynamic languages;
+  String language;
+  double volume = 0.5;
+  double pitch = 1.0;
+  double rate = 1.0;
+
+  String _newVoiceText;
+
+  TtsState ttsState = TtsState.stopped;
+
+  get isPlaying => ttsState == TtsState.playing;
+
+  get isStopped => ttsState == TtsState.stopped;
+
+
+
+  initTts() {
+    flutterTts = FlutterTts();
+
+    _getLanguages();
+
+    flutterTts.setStartHandler(() {
+      setState(() {
+        print("playing");
+        ttsState = TtsState.playing;
+      });
+    });
+
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        print("Complete");
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    flutterTts.setErrorHandler((msg) {
+      setState(() {
+        print("error: $msg");
+        ttsState = TtsState.stopped;
+      });
+    });
+  }
+
+  Future _getLanguages() async {
+    languages = await flutterTts.getLanguages;
+    print("pritty print ${languages}");
+    if (languages != null) setState(() => languages);
+  }
+
+  Future _speak() async {
+    await flutterTts.setVolume(volume);
+    await flutterTts.setSpeechRate(rate);
+    await flutterTts.setPitch(pitch);
+
+    if (_newVoiceText != null) {
+      if (_newVoiceText.isNotEmpty) {
+        var result = await flutterTts.speak(_newVoiceText);
+        if (result == 1) setState(() => ttsState = TtsState.playing);
+      }
+    }
+  }
+
+  Future _stop() async {
+    var result = await flutterTts.stop();
+    if (result == 1) setState(() => ttsState = TtsState.stopped);
+  }
 
   void AlarmManager() async{
     WidgetsFlutterBinding.ensureInitialized();
@@ -43,8 +114,15 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState(){
     AlarmManager();
+    initTts();
+    flutterTts.setLanguage("hi-IN");
     // TODO: implement initState
     super.initState();
+  }
+  @override
+  void dispose() {
+    flutterTts.stop();
+    super.dispose();
   }
   start () async{
     var scheduledNotificationDateTime = new DateTime.now().add(new Duration(seconds: 2));
@@ -133,6 +211,10 @@ class _DashboardState extends State<Dashboard> {
                                       builder: (context) => PrescriptionPage(userName: userName,userPhone: userPhone),
                                     ));
                               },
+                              onLongPress: (){
+                                _newVoiceText="Prescription Page";
+                                _speak();
+                              },
                               child: Center(
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -145,9 +227,9 @@ class _DashboardState extends State<Dashboard> {
                                     Align(
                                         alignment: Alignment.bottomCenter,
                                         child: Text('Input Prescription')),
-                                    Align(
+                                    /*Align(
                                         alignment: Alignment.bottomCenter,
-                                        child: Text('Image')),
+                                        child: Text('Image')),*/
                                   ],
                                 ),
                               ),
@@ -170,6 +252,10 @@ class _DashboardState extends State<Dashboard> {
                                       builder: (context) => MedicineBillPage(userName: userName,userPhone: userPhone,),
                                     ));
                               },
+                              onLongPress: (){
+                                _newVoiceText="Medicine Bill Page";
+                                _speak();
+                              },
                               child: Center(
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -182,9 +268,9 @@ class _DashboardState extends State<Dashboard> {
                                     Align(
                                         alignment: Alignment.bottomCenter,
                                         child: Text('Input Medical Bill')),
-                                    Align(
+                                    /*Align(
                                         alignment: Alignment.bottomCenter,
-                                        child: Text('Image')),
+                                        child: Text('Image')),*/
                                   ],
                                 ),
                               ),
@@ -206,6 +292,10 @@ class _DashboardState extends State<Dashboard> {
                                     MaterialPageRoute(
                                       builder: (context) => Prescription_Logs(userName: userName,userPhone: userPhone,),
                                     ));
+                              },
+                              onLongPress: (){
+                                _newVoiceText="Prescription Log Page";
+                                _speak();
                               },
                               child: Center(
                                 child: Column(
@@ -239,6 +329,10 @@ class _DashboardState extends State<Dashboard> {
                                       builder: (context) => Prescription_Logs(userName: userName,userPhone: userPhone,),
                                     ));
                               },
+                              onLongPress: (){
+                                _newVoiceText="Medicine Log Page";
+                                _speak();
+                              },
                               child: Center(
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -268,8 +362,12 @@ class _DashboardState extends State<Dashboard> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => ProfilePage(userName: userName,),
+                                      builder: (context) => ProfilePage(userName: userName,userPhone: userPhone,),
                                     ));
+                              },
+                              onLongPress: (){
+                                _newVoiceText="Profile Page";
+                                _speak();
                               },
                               child: Center(
                                 child: Column(
@@ -300,8 +398,12 @@ class _DashboardState extends State<Dashboard> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => Prescription_Logs(userName: userName,userPhone: userPhone,),
+                                      builder: (context) => Chatbot(),
                                     ));
+                              },
+                              onLongPress: (){
+                                _newVoiceText="ChatBot Page";
+                                _speak();
                               },
                               child: Center(
                                 child: Column(

@@ -160,7 +160,6 @@ class _ReminderState extends State<Reminder> {
           ]),
         );
       }
-
   }
 
   List<Widget> _addReminder()

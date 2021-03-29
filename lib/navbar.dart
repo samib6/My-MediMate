@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:medi_mate/Chatbot.dart';
 import 'medical_logs.dart';
 import 'prescription_logs.dart';
 import 'Prescription.dart';
 import 'MedicineBill.dart';
 import 'Profile.dart';
 import 'dashboard.dart';
+import 'Chatbot.dart';
 
 class NavDrawer extends StatelessWidget {
   String userName;
-  NavDrawer({Key key, @required this.userName}) : super(key: key);
+  String userPhone;
+  NavDrawer({Key key, @required this.userName,@required this.userPhone}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -33,10 +36,17 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.input),
             title: Text('Input Prescription Image'),
             onTap: () => {
-              Navigator.push(
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => Dashboard(userPhone: userPhone,userName: userName,),
+                    ),
+                    ModalRoute.withName('/')),
+
+            Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => PrescriptionPage(userName: userName,),
+                                      builder: (context) => PrescriptionPage(userName: userName,userPhone: userPhone,),
                                     )),
             },
           ),
@@ -45,20 +55,32 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.verified_user),
             title: Text('Profile'),
             onTap: () => {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => Dashboard(userPhone: userPhone,userName: userName,),
+                  ),
+                  ModalRoute.withName('/')),
               Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => ProfilePage(userName: userName,),
+                                      builder: (context) => ProfilePage(userName: userName,userPhone: userPhone,),
                                     )),
             },
           ),
           ListTile(
             leading: Icon(Icons.book),
             title: Text('Prescription Logs'),
-            onTap: () => {Navigator.push(
+            onTap: () => {Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => Dashboard(userPhone: userPhone,userName: userName,),
+                ),
+                ModalRoute.withName('/')),
+              Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => Prescription_Logs(userName: userName,),
+                                      builder: (context) => Prescription_Logs(userName: userName,userPhone: userPhone,),
                                     )),},
           ),
           ListTile(
@@ -69,16 +91,33 @@ class NavDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.border_color),
             title: Text('Input Medicine Bill Image'),
-            onTap: () => {Navigator.push(
+            onTap: () => {Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => Dashboard(userPhone: userPhone,userName: userName,),
+                ),
+                ModalRoute.withName('/')),
+              Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => MedicineBillPage(userName: userName,),
+                                      builder: (context) => MedicineBillPage(userName: userName,userPhone: userPhone,),
                                     )),},
           ),
           ListTile(
             leading: Icon(Icons.chat),
             title: Text('Chat'),
-            onTap: () => {Navigator.of(context).pop()},
+            onTap: () => {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => Dashboard(userPhone: userPhone,userName: userName,),
+                ),
+                ModalRoute.withName('/')),
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Chatbot(),
+                )),},
           ),
         ],
       ),

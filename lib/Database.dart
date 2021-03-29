@@ -274,9 +274,9 @@ class Database {
         {
           await databaseReference.child(PhoneNumber).child(type).child(Date).child(Deseases).child(MedicineName[i]).once().then((DataSnapshot data) {
             DeseasesName.insert(0, MedicineName[i]);
-            DeseasesName.insert(1, data.value["Breakfast"]);
-            DeseasesName.insert(2, data.value["Lunch"]);
-            DeseasesName.insert(3, data.value["Dinner"]);
+            DeseasesName.insert(1, data.value["Breakfast"].toString());
+            DeseasesName.insert(2, data.value["Lunch"].toString());
+            DeseasesName.insert(3, data.value["Dinner"].toString());
           });
         }
     }

@@ -32,7 +32,7 @@ class _PrescriptionState extends State<PrescriptionPage> {
             title: Image.asset("assets/logo_text.png",width:200,height:100),
             centerTitle: true,
           )),
-      drawer: NavDrawer(userName: userName,),
+      drawer: NavDrawer(userName: userName,userPhone: userPhone,),
       body: SingleChildScrollView (child : PrescriptionForm(userName: userName,userPhone: userPhone,),),
     );
   }
@@ -65,7 +65,7 @@ class _PrescriptionFormState extends State<PrescriptionForm> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Prescription_Image(userName: userName,),
+                  builder: (context) => Prescription_Image(userName: userName,userPhone: userPhone,),
                 ));
           },
         ),

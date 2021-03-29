@@ -4,15 +4,17 @@ import 'Database.dart';
 
 class ProfilePage extends StatefulWidget {
   String userName;
-  ProfilePage({Key key, @required this.userName}) : super(key: key);
+  String userPhone;
+  ProfilePage({Key key, @required this.userName, @required this.userPhone}) : super(key: key);
 
   @override
-  _ProfileState createState() => _ProfileState(userName: userName);
+  _ProfileState createState() => _ProfileState(userName: userName,userPhone: userPhone);
 }
 
 class _ProfileState extends State<ProfilePage> {
   String userName;
-  _ProfileState({Key key, @required this.userName});
+  String userPhone;
+  _ProfileState({Key key, @required this.userName, @required this.userPhone});
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -28,7 +30,7 @@ class _ProfileState extends State<ProfilePage> {
             title: Image.asset("assets/logo_text.png",width:200,height:100),
             centerTitle: true,
           )),
-      drawer: NavDrawer(userName: userName,),
+      drawer: NavDrawer(userName: userName,userPhone: userPhone,),
       body: SingleChildScrollView (child : ProfileForm(),),
     );
   }

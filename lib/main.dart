@@ -8,6 +8,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'MedicineReminder.dart';
 import 'Prescription_manual.dart';
+import 'package:android_alarm_manager/android_alarm_manager.dart';
+import 'package:intl/intl.dart';
+import 'dart:math';
+
 
 Map<int, Color> color = {
   50: Color.fromRGBO(136, 14, 79, .1),
@@ -21,7 +25,42 @@ Map<int, Color> color = {
   800: Color.fromRGBO(136, 14, 79, .9),
   900: Color.fromRGBO(136, 14, 79, 1),
 };
-void main() => runApp(MyApp());
+
+start () async {
+  var flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+  var scheduledNotificationDateTime = new DateTime.now().add(new Duration(seconds: 2));
+  print("helllooooooooooooooo" + scheduledNotificationDateTime.toString());
+  var androidPlatformChannelSpecifics = new AndroidNotificationDetails('your other channel id','your other channel name', 'your other channel description');
+  var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+  var platformChannelSpecifics = new NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+  await flutterLocalNotificationsPlugin.schedule(
+      0,
+      'scheduled title',
+      'scheduled body',
+      scheduledNotificationDateTime,
+      platformChannelSpecifics);
+  print("start");
+}
+
+stop() {
+  print("stop");
+}
+main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await AndroidAlarmManager.initialize();
+  String formattedDate = DateFormat('kk:mm:ss').format(DateTime.now());
+  String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  var l2p = DateTime.parse('$date 14:49:00');
+  AndroidAlarmManager.oneShotAt(l2p, Random().nextInt(9999999), start);
+  var l3p = DateTime.parse('$date 14:50:00');
+  AndroidAlarmManager.oneShotAt(l3p, Random().nextInt(9999999), start);
+  runApp(MyApp());
+
+}
+
+
+
+
 // ignore: non_constant_identifier_names
 MaterialColor final_color = MaterialColor(0xFFE2E2, color);
 
@@ -88,7 +127,7 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
     Timer(
         Duration(seconds: 3),
-        () {
+            () {
           getUser().then((user) async {
             if(user != null){
               userPhone =user.phoneNumber.toString();
@@ -98,11 +137,11 @@ class _SplashPageState extends State<SplashPage> {
                   MaterialPageRoute(builder: (context) => Dashboard(userPhone:user.phoneNumber.toString(),userName: username.toString(),)));
             }
             else
-              {
-                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => SelectLanguagePage()));
-                //Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) =>Prescription_Manual(userName: "Sameeksha",userPhone: "+919833515264",)));
-                //Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) =>MedicineReminder(userPhone: "+919833515264",)));
-              }
+            {
+              Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => SelectLanguagePage()));
+              //Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) =>Prescription_Manual(userName: "Sameeksha",userPhone: "+919833515264",)));
+              //Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) =>MedicineReminder(userPhone: "+919833515264",)));
+            }
           });
         });
     initializeNotifications();
@@ -137,16 +176,16 @@ class _SplashPageState extends State<SplashPage> {
         Padding(
           padding: const EdgeInsets.only(
               left: 20.0, top: 80.0, right: 20.0, bottom: 50.0),
-        child:Row(
-          children: [
-            Image.asset(
-              'assets/splash_screen_img.png',
-              width: 350.0,
-              height: 300.0,
-              fit: BoxFit.fill,
-            ),
-          ],
-        ),),
+          child:Row(
+            children: [
+              Image.asset(
+                'assets/splash_screen_img.png',
+                width: 350.0,
+                height: 300.0,
+                fit: BoxFit.fill,
+              ),
+            ],
+          ),),
         Padding(
           padding: const EdgeInsets.only(
               left: 1.0, top: 50.0, right: 8.0, bottom: 50.0),

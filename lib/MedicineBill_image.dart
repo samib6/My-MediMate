@@ -4,15 +4,17 @@ import 'package:image_picker/image_picker.dart';
 import 'navbar.dart';
 class MedicineBill_image extends StatefulWidget {
   String userName;
-  MedicineBill_image({Key key, @required this.userName}) : super(key: key);
+  String userPhone;
+  MedicineBill_image({Key key, @required this.userName,@required this.userPhone}) : super(key: key);
 
   @override
-  _MedicineBillImageState createState() => _MedicineBillImageState(userName: userName);
+  _MedicineBillImageState createState() => _MedicineBillImageState(userName: userName,userPhone: userPhone);
 }
 
 class _MedicineBillImageState extends State<MedicineBill_image> {
   String userName;
-  _MedicineBillImageState({Key key, @required this.userName});
+  String userPhone;
+  _MedicineBillImageState({Key key, @required this.userName,@required this.userPhone});
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -28,7 +30,7 @@ class _MedicineBillImageState extends State<MedicineBill_image> {
             title: Image.asset("assets/logo_text.png",width:200,height:100),
             centerTitle: true,
           )),
-      drawer: NavDrawer(userName: userName,),
+      drawer: NavDrawer(userName: userName,userPhone: userPhone,),
       body: SingleChildScrollView (child : MedicineBillImageForm(),),
     );
   }

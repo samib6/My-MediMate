@@ -31,6 +31,7 @@ dependencies:
   firebase_core_web: ^0.2.1+1
   intl: ^0.16.1
   android_alarm_manager: ^0.4.5+20
+  watson_assistant_v2: ^0.0.1
 
     
     

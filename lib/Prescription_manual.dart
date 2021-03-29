@@ -36,7 +36,7 @@ class _PrescriptionManual extends State<Prescription_Manual> {
             title: Image.asset("assets/logo_text.png",width:200,height:100),
             centerTitle: true,
           )),
-      drawer: NavDrawer(userName: userName,),
+      drawer: NavDrawer(userName: userName,userPhone: userPhone,),
       body: SingleChildScrollView (child : PrescriptionManualForm(userPhone: userPhone,),),
     );
   }

@@ -30,7 +30,7 @@ class _MedicineBillManualState extends State<MedicineBill_Manual> {
             title: Image.asset("assets/logo_text.png",width:200,height:100),
             centerTitle: true,
           )),
-      drawer: NavDrawer(userName: userName,),
+      drawer: NavDrawer(userName: userName,userPhone: userPhone,),
       body: SingleChildScrollView (child : MedicineBillManualForm(userPhone: userPhone,),),
     );
   }

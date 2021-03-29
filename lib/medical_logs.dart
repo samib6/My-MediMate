@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'navbar.dart';
 class Medical_Logs extends StatefulWidget {
   String userName;
-  Medical_Logs({Key key, @required this.userName}) : super(key: key);
+  String userPhone;
+  Medical_Logs({Key key, @required this.userName, @required this.userPhone}) : super(key: key);
   @override
-  _Medical_LogsState createState() => _Medical_LogsState(userName: userName);
+  _Medical_LogsState createState() => _Medical_LogsState(userName: userName,userPhone: userPhone);
 }
 
 class _Medical_LogsState extends State<Medical_Logs> {
   String userName;
-  _Medical_LogsState({Key key, @required this.userName});
+  String userPhone;
+  _Medical_LogsState({Key key, @required this.userName, @required this.userPhone});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +21,7 @@ class _Medical_LogsState extends State<Medical_Logs> {
             title: Image.asset("assets/logo_text.png",width:200,height:100),
             centerTitle: true,
           )),
-          drawer:NavDrawer(userName: userName,),
+          drawer:NavDrawer(userName: userName,userPhone: userPhone,),
       body: Column(children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(8.0),
