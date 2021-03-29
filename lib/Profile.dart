@@ -31,24 +31,28 @@ class _ProfileState extends State<ProfilePage> {
             centerTitle: true,
           )),
       drawer: NavDrawer(userName: userName,userPhone: userPhone,),
-      body: SingleChildScrollView (child : ProfileForm(),),
+      body: SingleChildScrollView (child : ProfileForm(userName: userName,userPhone: userPhone,),),
     );
   }
 }
 class ProfileForm extends StatefulWidget {
+  String userName;
+  String userPhone;
+  ProfileForm({Key key, @required this.userName, @required this.userPhone}) : super(key: key);
   @override
-  _ProfileFormState createState() => _ProfileFormState();
+  _ProfileFormState createState() => _ProfileFormState(userPhone: userPhone,userName: userName);
 }
 
 class _ProfileFormState extends State<ProfileForm> {
+  String userName;
+  String userPhone;
+  _ProfileFormState({Key key, @required this.userName, @required this.userPhone});
   Database d = new Database();
   final _formKey = GlobalKey<FormState>();
   DateTime selectedDate = DateTime.now();
   TimeOfDay breakfastTime = TimeOfDay(hour: 10,minute: 30);
   TimeOfDay lunchTime = TimeOfDay(hour: 12,minute: 30);
-  TimeOfDay dinnerTime = TimeOfDay(hour: 20,minute: 00);
-  String phoneNumber;
-  String UserName;
+  TimeOfDay dinnerTime = TimeOfDay(hour: 20,minute: 30);
 
 
   TextEditingController _nameController;
@@ -80,13 +84,13 @@ class _ProfileFormState extends State<ProfileForm> {
             leading: const Icon(Icons.person),
             title :TextFormField(
               decoration: InputDecoration(
-                hintText: "Name",
+                hintText: userName,
               ),
               validator: (value){
-                if (value.isEmpty){
+                /*if (value.isEmpty){
                   return 'Please enter your Name';
-                }
-                UserName = value;
+                }*/
+                userName = value;
                 return null;
               },
             ),
@@ -96,13 +100,13 @@ class _ProfileFormState extends State<ProfileForm> {
             title :TextFormField(
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                hintText: "Phone",
+                hintText: userPhone.substring(3),
               ),
               validator: (value){
-                if (value.isEmpty){
+                /*if (value.isEmpty){
                   return 'Please enter your Phone Number';
-                }
-                phoneNumber = "+91"+value;
+                }*/
+                userPhone = "+91"+value;
                 return null;
               },
             ),
@@ -167,7 +171,7 @@ class _ProfileFormState extends State<ProfileForm> {
           ElevatedButton(
             onPressed: (){
               if(_formKey.currentState.validate()){
-                d.saveProfile(phoneNumber, UserName,(selectedDate).toString().substring(0,10) , (breakfastTime).format(context), (lunchTime).format(context), (dinnerTime).format(context), friendsList, NumbersList);
+                d.saveProfile(userPhone, userName,(selectedDate).toString().substring(0,10) , (breakfastTime).format(context), (lunchTime).format(context), (dinnerTime).format(context), friendsList, NumbersList);
                 Scaffold.of(context).showSnackBar(SnackBar(content: Text('Saving Data'),));
               }
             },

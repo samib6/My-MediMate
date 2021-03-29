@@ -7,6 +7,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:medi_mate/Chatbot.dart';
 import 'package:medi_mate/Database.dart';
+import 'package:medi_mate/medical_logs.dart';
 import 'prescription_logs.dart';
 import 'Prescription.dart';
 import 'MedicineBill.dart';
@@ -326,7 +327,7 @@ class _DashboardState extends State<Dashboard> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => Prescription_Logs(userName: userName,userPhone: userPhone,),
+                                      builder: (context) => Medical_Logs(userName: userName,userPhone: userPhone,),
                                     ));
                               },
                               onLongPress: (){

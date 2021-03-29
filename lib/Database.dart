@@ -286,4 +286,29 @@ class Database {
     print(DeseasesName);
     return DeseasesName;
   }
+  Future <List<String>> getMedicineQuantity(String PhoneNumber) async {
+    List<String> MedicineName = [];
+    List<String> TempKey = [];
+    try {
+      await databaseReference.child(PhoneNumber).child("Medicine").once().then((DataSnapshot data) {
+        //print(data.value);
+        data.value.forEach((key, value) {
+          TempKey.insert(0, key);
+        });
+      });
+      for(int i =0;i<TempKey.length;i++)
+        {
+          await databaseReference.child(PhoneNumber).child("Medicine").child(TempKey[i]).child("Quantity").once().then((DataSnapshot data) {
+            print(data.value);
+            MedicineName.insert(0, TempKey[i]);
+            MedicineName.insert(1, data.value.toString());
+          });
+        }
+    }
+    catch (e) {
+      print(e);
+    }
+    print(MedicineName);
+    return MedicineName;
+  }
 }

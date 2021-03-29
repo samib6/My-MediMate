@@ -32,6 +32,11 @@ dependencies:
   intl: ^0.16.1
   android_alarm_manager: ^0.4.5+20
   watson_assistant_v2: ^0.0.1
+  http: ^0.12.2
+  rxdart: ^0.24.0
+  device_info: ^0.4.2+4
+  shared_preferences: ^0.5.7
+  path_provider: ^1.6.7
 
     
     

@@ -86,7 +86,19 @@ class NavDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.book),
             title: Text('Medical Logs'),
-            onTap: () => {Navigator.of(context).pop()},
+            onTap: () => {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => Dashboard(userPhone: userPhone,userName: userName,),
+                  ),
+                  ModalRoute.withName('/')),
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Medical_Logs(userName: userName,userPhone: userPhone,),
+                  )),
+            },
           ),
           ListTile(
             leading: Icon(Icons.border_color),

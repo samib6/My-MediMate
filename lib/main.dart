@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:medi_mate/Database.dart';
+import 'package:medi_mate/Prescription_image.dart';
 import 'package:medi_mate/dashboard.dart';
 import 'signup.dart';
 import 'select_language.dart';
@@ -11,8 +12,23 @@ import 'Prescription_manual.dart';
 import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:intl/intl.dart';
 import 'dart:math';
-
-
+import 'dart:async';
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui';
+import 'package:device_info/device_info.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'package:rxdart/subjects.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+import 'package:medi_mate/Nav.dart';
+//import 'NotiTry.dart';
+//import 'Notification.dart';
 Map<int, Color> color = {
   50: Color.fromRGBO(136, 14, 79, .1),
   100: Color.fromRGBO(136, 14, 79, .2),
@@ -26,46 +42,102 @@ Map<int, Color> color = {
   900: Color.fromRGBO(136, 14, 79, 1),
 };
 
-start () async {
-  var flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-  var scheduledNotificationDateTime = new DateTime.now().add(new Duration(seconds: 2));
-  print("helllooooooooooooooo" + scheduledNotificationDateTime.toString());
-  var androidPlatformChannelSpecifics = new AndroidNotificationDetails('your other channel id','your other channel name', 'your other channel description');
-  var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-  var platformChannelSpecifics = new NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
-  await flutterLocalNotificationsPlugin.schedule(
-      0,
-      'scheduled title',
-      'scheduled body',
-      scheduledNotificationDateTime,
-      platformChannelSpecifics);
-  print("start");
+
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
+
+/// Streams are created so that app can respond to notification-related events
+/// since the plugin is initialised in the `main` function
+final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
+BehaviorSubject<ReceivedNotification>();
+
+final BehaviorSubject<String> selectNotificationSubject =
+BehaviorSubject<String>();
+
+const MethodChannel platform =
+MethodChannel('dexterx.dev/flutter_local_notifications_example');
+
+class ReceivedNotification {
+  ReceivedNotification({
+    @required this.id,
+    @required this.title,
+    @required this.body,
+    @required this.payload,
+  });
+
+  final int id;
+  final String title;
+  final String body;
+  final String payload;
 }
 
-stop() {
-  print("stop");
-}
-main() async {
+String selectedNotificationPayload;
+/// IMPORTANT: running the following code on its own won't work as there is
+/// setup required for each platform head project.
+///
+/// Please download the complete example app from the GitHub repository where
+/// all the setup has been done
+Future<void> main() async {
+  // needed if you intend to initialize in the `main` function
   WidgetsFlutterBinding.ensureInitialized();
-  await AndroidAlarmManager.initialize();
-  String formattedDate = DateFormat('kk:mm:ss').format(DateTime.now());
-  String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
-  var l2p = DateTime.parse('$date 14:49:00');
-  AndroidAlarmManager.oneShotAt(l2p, Random().nextInt(9999999), start);
-  var l3p = DateTime.parse('$date 14:50:00');
-  AndroidAlarmManager.oneShotAt(l3p, Random().nextInt(9999999), start);
-  runApp(MyApp());
+  await _configureLocalTimeZone();
 
+  //String initialRoute = HomePage.routeName;
+
+  const AndroidInitializationSettings initializationSettingsAndroid =
+  AndroidInitializationSettings('app_icon');
+
+  /// Note: permissions aren't requested here just to demonstrate that can be
+  /// done later
+  final IOSInitializationSettings initializationSettingsIOS =
+  IOSInitializationSettings(
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+      onDidReceiveLocalNotification:
+          (int id, String title, String body, String payload) async {
+        didReceiveLocalNotificationSubject.add(ReceivedNotification(
+            id: id, title: title, body: body, payload: payload));
+      });
+  const MacOSInitializationSettings initializationSettingsMacOS =
+  MacOSInitializationSettings(
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false);
+  final InitializationSettings initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsIOS,
+      macOS: initializationSettingsMacOS);
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      onSelectNotification: (String payload) async {
+        if (payload != null) {
+          debugPrint('notification payload: $payload');
+        }
+        selectedNotificationPayload = payload;
+        selectNotificationSubject.add(payload);
+      });
+
+  runApp(
+      MyApp()
+  );
 }
 
+Future<void> _configureLocalTimeZone() async {
+  tz.initializeTimeZones();
+  final String timeZoneName = await platform.invokeMethod('getTimeZoneName');
+  tz.setLocalLocation(tz.getLocation(timeZoneName));
+}
 
 
 
 // ignore: non_constant_identifier_names
+
 MaterialColor final_color = MaterialColor(0xFFE2E2, color);
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -87,7 +159,8 @@ class MyApp extends StatelessWidget {
         //primarySwatch: Colors.pink,
       ),
       //home: MyHomePage(title: 'Flutter Demo Home Page'),
-      home: SplashPage(),
+      //home: SplashPage(),
+      home : HomePage(),
     );
   }
 }
@@ -105,10 +178,10 @@ class _SplashPageState extends State<SplashPage> {
     var initializationSettingsAndroid =
     AndroidInitializationSettings('@mipmap/ic_launcher');
     var initializationSettingsIOS = IOSInitializationSettings();
-    var initializationSettings = InitializationSettings(
-        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: onSelectNotification);
+    // var initializationSettings = InitializationSettings(
+    //   android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+    //await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+    //  onSelectNotification: onSelectNotification);
   }
 
   Future onSelectNotification(String payload) async {
@@ -207,6 +280,7 @@ class _SplashPageState extends State<SplashPage> {
     );
   }
 }
+
 //class SignUpPage extends
 /*
 class MyApp extends StatelessWidget {

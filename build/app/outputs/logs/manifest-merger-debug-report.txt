@@ -5,13 +5,16 @@ INJECTED from D:\Android Projects\Git\My-MediMate\android\app\src\main\AndroidMa
 INJECTED from D:\Android Projects\Git\My-MediMate\android\app\src\main\AndroidManifest.xml:1:1-66:12
 INJECTED from D:\Android Projects\Git\My-MediMate\android\app\src\main\AndroidManifest.xml:1:1-66:12
 MERGED from D:\Android Projects\Git\My-MediMate\android\app\src\main\AndroidManifest.xml:1:1-66:12
+MERGED from [:device_info] D:\Android Projects\Git\My-MediMate\build\device_info\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:image_picker] D:\Android Projects\Git\My-MediMate\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-22:12
 MERGED from [:flutter_plugin_android_lifecycle] D:\Android Projects\Git\My-MediMate\build\flutter_plugin_android_lifecycle\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:flutter_tts] D:\Android Projects\Git\My-MediMate\build\flutter_tts\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:android_alarm_manager] D:\Android Projects\Git\My-MediMate\build\android_alarm_manager\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:path_provider] D:\Android Projects\Git\My-MediMate\build\path_provider\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:flutter_local_notifications] D:\Android Projects\Git\My-MediMate\build\flutter_local_notifications\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-23:12
 MERGED from [:cloud_firestore] D:\Android Projects\Git\My-MediMate\build\cloud_firestore\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-15:12
 MERGED from [:firebase_database] D:\Android Projects\Git\My-MediMate\build\firebase_database\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-15:12
+MERGED from [:shared_preferences] D:\Android Projects\Git\My-MediMate\build\shared_preferences\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:firebase_auth] D:\Android Projects\Git\My-MediMate\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-15:12
 MERGED from [:firebase_core] D:\Android Projects\Git\My-MediMate\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-15:12
 MERGED from [com.google.firebase:firebase-database-ktx:19.5.1] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\91b9e6c2df8842cb9819ecffd9d2789a\firebase-database-ktx-19.5.1\AndroidManifest.xml:2:1-21:12
@@ -210,6 +213,8 @@ uses-sdk
 INJECTED from D:\Android Projects\Git\My-MediMate\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from D:\Android Projects\Git\My-MediMate\android\app\src\main\AndroidManifest.xml
 INJECTED from D:\Android Projects\Git\My-MediMate\android\app\src\main\AndroidManifest.xml
+MERGED from [:device_info] D:\Android Projects\Git\My-MediMate\build\device_info\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:device_info] D:\Android Projects\Git\My-MediMate\build\device_info\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:image_picker] D:\Android Projects\Git\My-MediMate\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:image_picker] D:\Android Projects\Git\My-MediMate\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:flutter_plugin_android_lifecycle] D:\Android Projects\Git\My-MediMate\build\flutter_plugin_android_lifecycle\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
@@ -218,12 +223,16 @@ MERGED from [:flutter_tts] D:\Android Projects\Git\My-MediMate\build\flutter_tts
 MERGED from [:flutter_tts] D:\Android Projects\Git\My-MediMate\build\flutter_tts\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:android_alarm_manager] D:\Android Projects\Git\My-MediMate\build\android_alarm_manager\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:android_alarm_manager] D:\Android Projects\Git\My-MediMate\build\android_alarm_manager\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:path_provider] D:\Android Projects\Git\My-MediMate\build\path_provider\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:path_provider] D:\Android Projects\Git\My-MediMate\build\path_provider\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:flutter_local_notifications] D:\Android Projects\Git\My-MediMate\build\flutter_local_notifications\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:flutter_local_notifications] D:\Android Projects\Git\My-MediMate\build\flutter_local_notifications\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:cloud_firestore] D:\Android Projects\Git\My-MediMate\build\cloud_firestore\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:cloud_firestore] D:\Android Projects\Git\My-MediMate\build\cloud_firestore\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:firebase_database] D:\Android Projects\Git\My-MediMate\build\firebase_database\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:firebase_database] D:\Android Projects\Git\My-MediMate\build\firebase_database\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:shared_preferences] D:\Android Projects\Git\My-MediMate\build\shared_preferences\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:shared_preferences] D:\Android Projects\Git\My-MediMate\build\shared_preferences\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:firebase_auth] D:\Android Projects\Git\My-MediMate\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:firebase_auth] D:\Android Projects\Git\My-MediMate\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:firebase_core] D:\Android Projects\Git\My-MediMate\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
