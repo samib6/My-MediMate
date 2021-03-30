@@ -153,7 +153,7 @@
     },
     {
       "name": "flutter_local_notifications",
-      "rootUri": "file:///C:/Users/Admin/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_local_notifications-4.0.1",
+      "rootUri": "file:///C:/Users/Admin/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_local_notifications-4.0.1+2",
       "packageUri": "lib/",
       "languageVersion": "2.6"
     },
@@ -452,7 +452,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2021-03-29T21:44:37.304795Z",
+  "generated": "2021-03-30T11:20:15.074379Z",
   "generator": "pub",
   "generatorVersion": "2.10.4"
 }

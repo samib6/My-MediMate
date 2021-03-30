@@ -1,6 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'MedicineReminder.dart';
 import 'navbar.dart';
 import 'Database.dart';
+//import 'package:medi_mate/Notification.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'package:rxdart/subjects.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class ProfilePage extends StatefulWidget {
   String userName;
@@ -43,6 +52,30 @@ class ProfileForm extends StatefulWidget {
   _ProfileFormState createState() => _ProfileFormState(userPhone: userPhone,userName: userName);
 }
 
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
+final BehaviorSubject<String> selectNotificationSubject =
+BehaviorSubject<String>();
+
+final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
+BehaviorSubject<ReceivedNotification>();
+
+class ReceivedNotification {
+  ReceivedNotification({
+    @required this.id,
+    @required this.title,
+    @required this.body,
+    @required this.payload,
+  });
+
+  final int id;
+  final String title;
+  final String body;
+  final String payload;
+}
+
+String selectedNotificationPayload;
+
 class _ProfileFormState extends State<ProfileForm> {
   String userName;
   String userPhone;
@@ -53,24 +86,117 @@ class _ProfileFormState extends State<ProfileForm> {
   TimeOfDay breakfastTime = TimeOfDay(hour: 10,minute: 30);
   TimeOfDay lunchTime = TimeOfDay(hour: 12,minute: 30);
   TimeOfDay dinnerTime = TimeOfDay(hour: 20,minute: 30);
+  //Notifi n = new Notifi();
 
 
   TextEditingController _nameController;
   TextEditingController _numberController;
   static List<String> friendsList = [null];
   static List<String> NumbersList = [null];
-
+  void _requestPermissions() {
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        MacOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+  }
   @override
   void initState() {
     super.initState();
     _nameController = TextEditingController();
     _numberController = TextEditingController();
+    _requestPermissions();
+    _configureSelectNotificationSubject();
+    _configureDidReceiveLocalNotificationSubject();
   }
-
+  Future<void> scheduleDailyTenAMNotification(int hr,int min,int sec,int id) async {
+    print("inside noti");
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        id,
+        'Medicine Reminder',
+        'It\'s time to take your afternoon medidine',
+        _nextInstanceOfTenAM(hr,min,sec),
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+              'daily notification channel id',
+              'daily notification channel name',
+              'daily notification description'),
+        ),
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.time,
+        payload:'Reminder' );
+  }
+  tz.TZDateTime _nextInstanceOfTenAM(int hr , int min ,int sec) {
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduledDate =
+    tz.TZDateTime(tz.local, now.year, now.month, now.day, hr,min,sec);
+    if (scheduledDate.isBefore(now)) {
+      scheduledDate = scheduledDate.add(const Duration(days: 1));
+    }
+    return scheduledDate;
+  }
+  void _configureSelectNotificationSubject() {
+    print("outside Payload");
+    selectNotificationSubject.stream.listen((String payload) async {
+      print("Inside payload");
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MedicineReminder(userPhone: "+919833515264"),
+          ));
+    });
+  }
+  void _configureDidReceiveLocalNotificationSubject() {
+    didReceiveLocalNotificationSubject.stream
+        .listen((ReceivedNotification receivedNotification) async {
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: receivedNotification.title != null
+              ? Text(receivedNotification.title)
+              : null,
+          content: receivedNotification.body != null
+              ? Text(receivedNotification.body)
+              : null,
+          actions: <Widget>[
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              onPressed: () async {
+                Navigator.of(context, rootNavigator: true).pop();
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        MedicineReminder(userPhone: "+919833515264"),
+                  ),
+                );
+              },
+              child: const Text('Ok'),
+            )
+          ],
+        ),
+      );
+    });
+  }
   @override
   void dispose() {
     _nameController.dispose();
     _numberController.dispose();
+    didReceiveLocalNotificationSubject.close();
+    selectNotificationSubject.close();
     super.dispose();
   }
 
@@ -87,9 +213,10 @@ class _ProfileFormState extends State<ProfileForm> {
                 hintText: userName,
               ),
               validator: (value){
-                /*if (value.isEmpty){
-                  return 'Please enter your Name';
-                }*/
+                if (value.isEmpty){
+                  return null;
+                  //return 'Please enter your Name';
+                }
                 userName = value;
                 return null;
               },
@@ -103,9 +230,10 @@ class _ProfileFormState extends State<ProfileForm> {
                 hintText: userPhone.substring(3),
               ),
               validator: (value){
-                /*if (value.isEmpty){
-                  return 'Please enter your Phone Number';
-                }*/
+                if (value.isEmpty){
+                  return null;
+                  //return 'Please enter your Phone Number';
+                }
                 userPhone = "+91"+value;
                 return null;
               },
@@ -172,6 +300,9 @@ class _ProfileFormState extends State<ProfileForm> {
             onPressed: (){
               if(_formKey.currentState.validate()){
                 d.saveProfile(userPhone, userName,(selectedDate).toString().substring(0,10) , (breakfastTime).format(context), (lunchTime).format(context), (dinnerTime).format(context), friendsList, NumbersList);
+                scheduleDailyTenAMNotification(breakfastTime.hour,breakfastTime.minute,00,0);
+                scheduleDailyTenAMNotification(lunchTime.hour,lunchTime.minute,00,1);
+                scheduleDailyTenAMNotification(dinnerTime.hour,dinnerTime.minute,00,2);
                 Scaffold.of(context).showSnackBar(SnackBar(content: Text('Saving Data'),));
               }
             },

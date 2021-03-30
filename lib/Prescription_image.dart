@@ -60,7 +60,7 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
   File _image;
   FlutterTts flutterTts;
   final picker = ImagePicker();
-  static final String uploadEndPoint = 'http://10.0.2.2/saveFile.php';
+  static final String uploadEndPoint = 'http://192.168.29.17/saveFile.php';
   Future<File> file;
   String status = '';
   String base64Image;
@@ -424,14 +424,14 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
                 SizedBox(
                   height: 20.0,
                 ),
-                if (file != null)
+                /*if (file != null)
                   OutlineButton(
 
                     onPressed: startUpload,
                     //onLongPress: up_firebase,
                     color : const Color(0xFFFFC7C7),
                     child: Text('Upload Image'),
-                  ),
+                  ),*/
                 /*SizedBox(
                   height: 20.0,
                 ),*/

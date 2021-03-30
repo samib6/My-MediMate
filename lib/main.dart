@@ -27,6 +27,7 @@ import 'package:rxdart/subjects.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:medi_mate/Notification.dart';
+
 //import 'NotiTry.dart';
 //import 'Notification.dart';
 Map<int, Color> color = {
@@ -58,6 +59,8 @@ BehaviorSubject<String>();
 const MethodChannel platform =
 MethodChannel('dexterx.dev/flutter_local_notifications_example');
 
+
+
 class ReceivedNotification {
   ReceivedNotification({
     @required this.id,
@@ -73,6 +76,7 @@ class ReceivedNotification {
 }
 
 String selectedNotificationPayload;
+GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 /// IMPORTANT: running the following code on its own won't work as there is
 /// setup required for each platform head project.
 ///
@@ -80,7 +84,7 @@ String selectedNotificationPayload;
 /// all the setup has been done
 Future<void> main() async {
   // needed if you intend to initialize in the `main` function
-  WidgetsFlutterBinding.ensureInitialized();
+  /*WidgetsFlutterBinding.ensureInitialized();
   await _configureLocalTimeZone();
 
   //String initialRoute = HomePage.routeName;
@@ -91,32 +95,21 @@ Future<void> main() async {
   /// Note: permissions aren't requested here just to demonstrate that can be
   /// done later
   final IOSInitializationSettings initializationSettingsIOS =
-  IOSInitializationSettings(
-      requestAlertPermission: false,
-      requestBadgePermission: false,
-      requestSoundPermission: false,
-      onDidReceiveLocalNotification:
-          (int id, String title, String body, String payload) async {
-        didReceiveLocalNotificationSubject.add(ReceivedNotification(
-            id: id, title: title, body: body, payload: payload));
-      });
+  IOSInitializationSettings();
   const MacOSInitializationSettings initializationSettingsMacOS =
-  MacOSInitializationSettings(
-      requestAlertPermission: false,
-      requestBadgePermission: false,
-      requestSoundPermission: false);
+  MacOSInitializationSettings();
   final InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
       macOS: initializationSettingsMacOS);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
       onSelectNotification: (String payload) async {
-        if (payload != null) {
+        if (payload == "Reminder") {
           debugPrint('notification payload: $payload');
         }
         selectedNotificationPayload = payload;
         selectNotificationSubject.add(payload);
-      });
+      });*/
 
   runApp(
       MyApp()
@@ -141,6 +134,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'My MediMate',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -159,8 +153,8 @@ class MyApp extends StatelessWidget {
         //primarySwatch: Colors.pink,
       ),
       //home: MyHomePage(title: 'Flutter Demo Home Page'),
-      //home: SplashPage(),
-      home : HomePage(),
+      home: SplashPage(),
+      //home : HomePage(),
     );
   }
 }
@@ -175,21 +169,47 @@ class _SplashPageState extends State<SplashPage> {
   var flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
   String userPhone;
   initializeNotifications() async {
-    var initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettingsIOS = IOSInitializationSettings();
-    // var initializationSettings = InitializationSettings(
-    //   android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-    //await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-    //  onSelectNotification: onSelectNotification);
+    WidgetsFlutterBinding.ensureInitialized();
+    await _configureLocalTimeZone();
+
+    //String initialRoute = HomePage.routeName;
+
+    const AndroidInitializationSettings initializationSettingsAndroid =
+    AndroidInitializationSettings('app_icon');
+
+    /// Note: permissions aren't requested here just to demonstrate that can be
+    /// done later
+    final IOSInitializationSettings initializationSettingsIOS =
+    IOSInitializationSettings();
+    const MacOSInitializationSettings initializationSettingsMacOS =
+    MacOSInitializationSettings();
+    final InitializationSettings initializationSettings = InitializationSettings(
+        android: initializationSettingsAndroid,
+        iOS: initializationSettingsIOS,
+        macOS: initializationSettingsMacOS);
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      onSelectNotification: onSelectNotification);
+    final NotificationAppLaunchDetails notificationAppLaunchDetails =
+    await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+    if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
+      print("new stuff");
+      if(notificationAppLaunchDetails.payload=='Reminder') {
+        print("go to page");
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) =>
+                MedicineReminder(userPhone: userPhone)));
+      }
+      //selectedNotificationPayload = notificationAppLaunchDetails!.payload;
+      //initialRoute = SecondPage.routeName;
+    }
   }
 
   Future onSelectNotification(String payload) async {
     print('Notification clicked');
-    print(payload);
-    if(payload!=null) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) =>
+    //print(payload);
+    if(payload=='Reminder') {
+      print("go to page");
+      await navigatorKey.currentState.push(MaterialPageRoute(builder: (context) =>
               MedicineReminder(userPhone: userPhone)));
     }
     //return Future.value(0);

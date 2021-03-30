@@ -16,7 +16,7 @@ class _MedicineReminderState extends State<MedicineReminder> {
   _MedicineReminderState({Key key, @required this.userPhone});
   @override
   Widget build(BuildContext context) {
-
+    print("Reminder");
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(100.0),
