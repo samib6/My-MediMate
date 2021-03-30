@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'Database.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
+import 'package:telephony/telephony.dart';
 
 class MedicineReminder extends StatefulWidget {
   String userPhone;
-  MedicineReminder({Key key, @required this.userPhone}) : super(key: key);
+  String userName;
+  MedicineReminder({Key key, @required this.userPhone,@required this.userName}) : super(key: key);
   @override
-  _MedicineReminderState createState() => _MedicineReminderState(userPhone: userPhone);
+  _MedicineReminderState createState() => _MedicineReminderState(userPhone: userPhone,userName: userName);
 }
 
 class _MedicineReminderState extends State<MedicineReminder> {
   String userPhone;
-  _MedicineReminderState({Key key, @required this.userPhone});
+  String userName;
+  _MedicineReminderState({Key key, @required this.userPhone,@required this.userName});
   @override
   Widget build(BuildContext context) {
     print("Reminder");
@@ -24,33 +26,45 @@ class _MedicineReminderState extends State<MedicineReminder> {
             title: Image.asset("assets/logo_text.png",width:200,height:100),
             centerTitle: true,
           )),
-      body: SingleChildScrollView (child : Reminder(userPhone: userPhone,),),
+      body: SingleChildScrollView (child : Reminder(userPhone: userPhone,userName: userName,),),
     );
   }
 }
 
 class Reminder extends StatefulWidget {
   String userPhone;
-  Reminder({Key key, @required this.userPhone}) : super(key: key);
+  String userName;
+  Reminder({Key key, @required this.userPhone,@required this.userName}) : super(key: key);
   @override
-  _ReminderState createState() => _ReminderState(userPhone: userPhone);
+  _ReminderState createState() => _ReminderState(userPhone: userPhone,userName: userName);
 }
 
 class _ReminderState extends State<Reminder> {
   String userPhone;
-  _ReminderState({Key key, @required this.userPhone});
+  String userName;
+  _ReminderState({Key key, @required this.userPhone,@required this.userName});
+  final telephony = Telephony.instance;
   Database d = new Database();
   bool breakfastcheck = false;
   bool lunchcheck = false;
   bool dinnercheck = false;
   bool loaded = false;
+  List<String> Peer= [];
   static List<String> MedicineName=[];
   var flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-
+  void sms_function(String PhoneNumber,String msg) {
+    telephony.sendSms(
+        to: PhoneNumber.substring(3),
+        message: msg
+    );
+  }
   void check() async{
     var BreakfastTime;
     var LunchTime;
     var DinnerTime;
+
+    Peer = await d.getPeer(userPhone);
+    print(Peer);
     await d.getProfile(userPhone).then((DataSnapshot data) async{
       BreakfastTime = (data.value["BreakfastTime"]);
       LunchTime = (data.value["LunchTime"]);
@@ -164,6 +178,14 @@ class _ReminderState extends State<Reminder> {
 
   List<Widget> _addReminder()
   {
+    if(MedicineName.length<3)
+    {
+      for(int i =0;i<Peer.length;i+=2)
+      {
+        print("send sms to "+Peer[i+1]);
+        sms_function(Peer[i+1], "Dear "+Peer[i]+" "+userName+" has taken their medicines");
+      }
+    }
     List<Widget> Medicine = [];
     for(int i=2;i<MedicineName.length;i+=3)
       {

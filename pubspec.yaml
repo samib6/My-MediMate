@@ -37,6 +37,7 @@ dependencies:
   device_info: ^0.4.2+4
   shared_preferences: ^0.5.7
   path_provider: ^1.6.7
+  telephony:
 
     
     

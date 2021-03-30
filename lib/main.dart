@@ -168,6 +168,7 @@ class _SplashPageState extends State<SplashPage> {
   Database d = new Database();
   var flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
   String userPhone;
+  String userName;
   initializeNotifications() async {
     WidgetsFlutterBinding.ensureInitialized();
     await _configureLocalTimeZone();
@@ -197,7 +198,7 @@ class _SplashPageState extends State<SplashPage> {
         print("go to page");
         Navigator.push(context,
             MaterialPageRoute(builder: (context) =>
-                MedicineReminder(userPhone: userPhone)));
+                MedicineReminder(userPhone: userPhone,userName: userName,)));
       }
       //selectedNotificationPayload = notificationAppLaunchDetails!.payload;
       //initialRoute = SecondPage.routeName;
@@ -210,7 +211,7 @@ class _SplashPageState extends State<SplashPage> {
     if(payload=='Reminder') {
       print("go to page");
       await navigatorKey.currentState.push(MaterialPageRoute(builder: (context) =>
-              MedicineReminder(userPhone: userPhone)));
+              MedicineReminder(userPhone: userPhone,userName: userName,)));
     }
     //return Future.value(0);
   }
@@ -224,10 +225,10 @@ class _SplashPageState extends State<SplashPage> {
           getUser().then((user) async {
             if(user != null){
               userPhone =user.phoneNumber.toString();
-              String username = await  d.getUser(user.phoneNumber.toString());
+              userName = await  d.getUser(user.phoneNumber.toString());
               //print(user.phoneNumber.toString());
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => Dashboard(userPhone:user.phoneNumber.toString(),userName: username.toString(),)));
+                  MaterialPageRoute(builder: (context) => Dashboard(userPhone:user.phoneNumber.toString(),userName: userName.toString(),)));
             }
             else
             {

@@ -351,4 +351,21 @@ class Database {
     print(MedicineName);
     return MedicineName;
   }
+  Future <List<String>> getPeer(String PhoneNumber) async{
+    List<String> Peer = [];
+    try{
+      await databaseReference.child(PhoneNumber).child("Profile").child("Peer").once().then((DataSnapshot data) {
+        print(data.value[0]['PeerName']);
+        for(int i=0;i<data.value.length;i++){
+          Peer.insert(0, data.value[i]['PeerName']);
+          Peer.insert(1, data.value[i]['PeerNumber']);
+        }
+
+      });
+    }
+    catch(e){
+      print(e);
+    }
+    return Peer;
+  }
 }

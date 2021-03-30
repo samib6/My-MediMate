@@ -10,6 +10,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+//import 'SMS_Peer.dart';
+//import 'package:telephony/telephony.dart';
+
 
 class ProfilePage extends StatefulWidget {
   String userName;
@@ -87,7 +90,7 @@ class _ProfileFormState extends State<ProfileForm> {
   TimeOfDay lunchTime = TimeOfDay(hour: 12,minute: 30);
   TimeOfDay dinnerTime = TimeOfDay(hour: 20,minute: 30);
   //Notifi n = new Notifi();
-
+  //final telephony = Telephony.instance;
 
   TextEditingController _nameController;
   TextEditingController _numberController;
@@ -122,10 +125,19 @@ class _ProfileFormState extends State<ProfileForm> {
   }
   Future<void> scheduleDailyTenAMNotification(int hr,int min,int sec,int id) async {
     print("inside noti");
+    String checktime;
+    switch(id) {
+      case 0:checktime = "morning";
+        break;
+      case 1:checktime = "afternoon";
+        break;
+      case 2:checktime = "evening";
+        break;
+  }
     await flutterLocalNotificationsPlugin.zonedSchedule(
         id,
         'Medicine Reminder',
-        'It\'s time to take your afternoon medidine',
+        'It\'s time to take your '+checktime+' medicine',
         _nextInstanceOfTenAM(hr,min,sec),
         const NotificationDetails(
           android: AndroidNotificationDetails(
@@ -137,7 +149,8 @@ class _ProfileFormState extends State<ProfileForm> {
         uiLocalNotificationDateInterpretation:
         UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time,
-        payload:'Reminder' );
+        payload:'Reminder',);
+
   }
   tz.TZDateTime _nextInstanceOfTenAM(int hr , int min ,int sec) {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
@@ -155,7 +168,7 @@ class _ProfileFormState extends State<ProfileForm> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MedicineReminder(userPhone: "+919833515264"),
+            builder: (context) => MedicineReminder(userPhone: userPhone,userName: userName,),
           ));
     });
   }
@@ -180,7 +193,7 @@ class _ProfileFormState extends State<ProfileForm> {
                   context,
                   MaterialPageRoute<void>(
                     builder: (BuildContext context) =>
-                        MedicineReminder(userPhone: "+919833515264"),
+                        MedicineReminder(userPhone: userPhone,userName: userName,),
                   ),
                 );
               },
