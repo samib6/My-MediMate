@@ -187,6 +187,7 @@ class _ReminderState extends State<Reminder> {
     return InkWell(
       onTap: () {
         d.updateMedicine(userPhone,MedicineName[index-2], MedicineName[index-1], MedicineName[index]);
+        d.updateMedicineQuantity(userPhone, MedicineName[index]);
         MedicineName.removeAt(index);
         MedicineName.removeAt(index-1);
         MedicineName.removeAt(index-2);

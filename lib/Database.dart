@@ -1,12 +1,13 @@
 //import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 //import 'package:flutter/material.dart';
 //import 'package:medi_mate/signup.dart';
 
 class Database {
 
   final databaseReference = FirebaseDatabase.instance.reference();
-
+  static int countid=0;
   Future <void> saveUser(String UserName , String PhoneNumber) {
     var id = databaseReference.child(PhoneNumber).child("Profile").set({
       'Name': UserName,
@@ -183,6 +184,45 @@ class Database {
           'Days': temp.value['Days']
         });
       }
+    }
+    catch(e){
+      print(e);
+    }
+  }
+  void updateMedicineQuantity(String PhoneNumber,String MedicineName) async{
+    int total;
+
+    try {
+      await databaseReference.child(PhoneNumber).child("Medicine").child(MedicineName).once().then((
+          DataSnapshot data) {
+        //print(data.value);
+        total = (data.value['Quantity']);
+      });
+      if(total>0)
+        {
+          total--;
+        }
+      if(total<5)
+      {
+        var flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+        var scheduledNotificationDateTime = new DateTime.now().add(new Duration(seconds: 2));
+        print(scheduledNotificationDateTime);
+        var androidPlatformChannelSpecifics = new AndroidNotificationDetails('your other channel id','your other channel name', 'your other channel description');
+        var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+        var platformChannelSpecifics = new NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+        await flutterLocalNotificationsPlugin.schedule(
+            3+countid,
+            MedicineName,
+            'Please Refill this medicine',
+            scheduledNotificationDateTime,
+            platformChannelSpecifics);
+        countid++;
+        if(countid>15)
+          countid=0;
+      }
+      await databaseReference.child(PhoneNumber).child("Medicine").child(MedicineName).set({
+        'Quantity':total,
+      });
     }
     catch(e){
       print(e);

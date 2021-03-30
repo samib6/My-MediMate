@@ -58,7 +58,6 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
   _PrescriptionImageFormState({Key key, @required this.userName,this.userPhone});
   final _formKey = GlobalKey<FormState>();
   File _image;
-  FlutterTts flutterTts;
   final picker = ImagePicker();
   static final String uploadEndPoint = 'http://192.168.29.17/saveFile.php';
   Future<File> file;
@@ -70,6 +69,73 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
   File tmpFile;
   String errMessage = 'Error Uploading Image';
   Database d = new Database();
+  FlutterTts flutterTts;
+  dynamic languages;
+  String language;
+  double volume = 0.5;
+  double pitch = 1.0;
+  double rate = 1.0;
+
+  String _newVoiceText;
+
+  TtsState ttsState = TtsState.stopped;
+
+  get isPlaying => ttsState == TtsState.playing;
+
+  get isStopped => ttsState == TtsState.stopped;
+
+
+
+  initTts() {
+    flutterTts = FlutterTts();
+
+    _getLanguages();
+
+    flutterTts.setStartHandler(() {
+      setState(() {
+        print("playing");
+        ttsState = TtsState.playing;
+      });
+    });
+
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        print("Complete");
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    flutterTts.setErrorHandler((msg) {
+      setState(() {
+        print("error: $msg");
+        ttsState = TtsState.stopped;
+      });
+    });
+  }
+
+  Future _getLanguages() async {
+    languages = await flutterTts.getLanguages;
+    print("pritty print ${languages}");
+    if (languages != null) setState(() => languages);
+  }
+
+  Future _speak() async {
+    await flutterTts.setVolume(volume);
+    await flutterTts.setSpeechRate(rate);
+    await flutterTts.setPitch(pitch);
+
+    if (_newVoiceText != null) {
+      if (_newVoiceText.isNotEmpty) {
+        var result = await flutterTts.speak(_newVoiceText);
+        if (result == 1) setState(() => ttsState = TtsState.playing);
+      }
+    }
+  }
+
+  Future _stop() async {
+    var result = await flutterTts.stop();
+    if (result == 1) setState(() => ttsState = TtsState.stopped);
+  }
   chooseImage() async {
     setState(() {
       file = ImagePicker.pickImage(source: ImageSource.gallery);
@@ -129,54 +195,7 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
         print("check");
         print(jsonsDataString);
         //print(jsonsDataString.key);
-        String mediname="";
-        String breakf="";
-        String lunch="";
-        String dinner="";
-        int j=1;
-        int fl=1;
-        for(int i=0;i<jsonsDataString.length-1;i++)
-        {
-          if(jsonsDataString[i]=='\'')
-          {
-            j=i+1;
-            mediname="";
-            while(jsonsDataString[j]!='\'')
-            {
-              mediname =mediname+jsonsDataString[j];
-              j++;
-            }
-            i=j+3;
-            print(mediname);
-            fl=0;
-          }
-          if(fl==0)
-          {
-            breakf="";
-            lunch="";
-            dinner="";
-            breakf=jsonsDataString[i+2]+"";
-            lunch=jsonsDataString[i+5]+"";
-            dinner=jsonsDataString[i+8]+"";
 
-            print(breakf);
-            print(lunch);
-            print(dinner);
-            i=i+6;
-            fl=1;
-            print(userPhone);
-            print(diseaseName);
-            print(mediname);
-            print((breakf=="0"?false:true).toString());
-            print((lunch=="0"?false:true).toString());
-            print((dinner=="0"?false:true).toString());
-            print(DateTime.now().toString());
-            print((day));
-            d.savePrescription(userPhone, diseaseName, mediname, breakf=="0"?false:true, lunch=="0"?false:true, dinner=="0"?false:true, DateTime.now().toString().split(' ')[0],int.parse(day));
-          }
-
-
-        }
 
         /* for(int i=0;i<jsonsDataString.keys.length;i++)
         {
@@ -271,79 +290,14 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
       ),
     );
   }*/
-  /*
-  dynamic languages;
-  String language;
-  double volume = 0.5;
-  double pitch = 1.0;
-  double rate = 1.0;
-
-  String _newVoiceText;
-
-  TtsState ttsState = TtsState.stopped;
-
-  get isPlaying => ttsState == TtsState.playing;
-
-  get isStopped => ttsState == TtsState.stopped;
 
 
-
-  initTts() {
-    flutterTts = FlutterTts();
-
-    _getLanguages();
-
-    flutterTts.setStartHandler(() {
-      setState(() {
-        print("playing");
-        ttsState = TtsState.playing;
-      });
-    });
-
-    flutterTts.setCompletionHandler(() {
-      setState(() {
-        print("Complete");
-        ttsState = TtsState.stopped;
-      });
-    });
-
-    flutterTts.setErrorHandler((msg) {
-      setState(() {
-        print("error: $msg");
-        ttsState = TtsState.stopped;
-      });
-    });
-  }
-
-  Future _getLanguages() async {
-    languages = await flutterTts.getLanguages;
-    print("pritty print ${languages}");
-    if (languages != null) setState(() => languages);
-  }
-
-  Future _speak() async {
-    await flutterTts.setVolume(volume);
-    await flutterTts.setSpeechRate(rate);
-    await flutterTts.setPitch(pitch);
-
-    if (_newVoiceText != null) {
-      if (_newVoiceText.isNotEmpty) {
-        var result = await flutterTts.speak(_newVoiceText);
-        if (result == 1) setState(() => ttsState = TtsState.playing);
-      }
-    }
-  }
-
-  Future _stop() async {
-    var result = await flutterTts.stop();
-    if (result == 1) setState(() => ttsState = TtsState.stopped);
-  }
 
   @override
   void initState() {
     super.initState();
-  //  initTts();
-    //flutterTts.setLanguage("hi-IN");
+    initTts();
+    flutterTts.setLanguage("hi-IN");
   }
 
   @override
@@ -351,7 +305,7 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
     flutterTts.stop();
     super.dispose();
   }
-*/
+
 
   @override
   Widget build(BuildContext context) {
@@ -491,11 +445,63 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
           RaisedButton(
             color : const Color(0xFFFFC7C7),
             child: Text("Read Prescription from Image"),
-            onPressed: () {
-              if (_image!= null)
-              {
-                //  _newVoiceText="ABC Medicine (No Generics) 250mg capsules, take 1 capsule twice a day, 1 after breakfast, 1 after dinner";
-                //_speak();
+            onPressed: () async{
+              if (file!= null) {
+                await startUpload();
+                _newVoiceText = "";
+                String mediname = "";
+                String breakf = "";
+                String lunch = "";
+                String dinner = "";
+                int j = 1;
+                int fl = 1;
+                for (int i = 0; i < jsonsDataString.length - 1; i++) {
+                  if (jsonsDataString[i] == '\'') {
+                    j = i + 1;
+                    mediname = "";
+                    while (jsonsDataString[j] != '\'') {
+                      mediname = mediname + jsonsDataString[j];
+                      j++;
+                    }
+                    i = j + 3;
+                    print(mediname);
+                    fl = 0;
+                  }
+                  if (fl == 0) {
+                    breakf = "";
+                    lunch = "";
+                    dinner = "";
+                    breakf = jsonsDataString[i + 2] + "";
+                    lunch = jsonsDataString[i + 5] + "";
+                    dinner = jsonsDataString[i + 8] + "";
+
+                    print(breakf);
+                    print(lunch);
+                    print(dinner);
+                    i = i + 6;
+                    fl = 1;
+                    print(mediname);
+                    print((breakf == "0" ? false : true).toString());
+                    print((lunch == "0" ? false : true).toString());
+                    print((dinner == "0" ? false : true).toString());
+                    _newVoiceText+=mediname+", take ";
+                    if(breakf!="0")
+                      {
+                        _newVoiceText+="1 after Breakfast, ";
+                      }
+                    if(lunch!="0")
+                    {
+                      _newVoiceText+="1 after Lunch, ";
+                    }
+                    if(dinner!="0")
+                    {
+                      _newVoiceText+="1 after Dinner. ";
+                    }
+
+                  }
+                    //_newVoiceText="ABC Medicine (No Generics) 250mg capsules, take 1 capsule twice a day, 1 after breakfast, 1 after dinner";
+                    _speak();
+                }
               }
             },
           ),
@@ -514,6 +520,52 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
                */
               }
               startUpload();
+              String mediname="";
+              String breakf="";
+              String lunch="";
+              String dinner="";
+              int j=1;
+              int fl=1;
+              for(int i=0;i<jsonsDataString.length-1;i++)
+              {
+                if(jsonsDataString[i]=='\'')
+                {
+                  j=i+1;
+                  mediname="";
+                  while(jsonsDataString[j]!='\'')
+                  {
+                    mediname =mediname+jsonsDataString[j];
+                    j++;
+                  }
+                  i=j+3;
+                  print(mediname);
+                  fl=0;
+                }
+                if(fl==0)
+                {
+                  breakf="";
+                  lunch="";
+                  dinner="";
+                  breakf=jsonsDataString[i+2]+"";
+                  lunch=jsonsDataString[i+5]+"";
+                  dinner=jsonsDataString[i+8]+"";
+
+                  print(breakf);
+                  print(lunch);
+                  print(dinner);
+                  i=i+6;
+                  fl=1;
+                  print(userPhone);
+                  print(diseaseName);
+                  print(mediname);
+                  print((breakf=="0"?false:true).toString());
+                  print((lunch=="0"?false:true).toString());
+                  print((dinner=="0"?false:true).toString());
+                  print(DateTime.now().toString());
+                  print((day));
+                  d.savePrescription(userPhone, diseaseName, mediname, breakf=="0"?false:true, lunch=="0"?false:true, dinner=="0"?false:true, DateTime.now().toString().split(' ')[0],int.parse(day));
+                }
+              }
             },
             child: Text('Save'),
           )
