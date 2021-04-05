@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medi_mate/Chatbot.dart';
+import 'package:medi_mate/MedicineBill_manual.dart';
 import 'medical_logs.dart';
 import 'prescription_logs.dart';
 import 'Prescription.dart';
@@ -112,7 +113,8 @@ class NavDrawer extends StatelessWidget {
               Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => MedicineBillPage(userName: userName,userPhone: userPhone,),
+                                      builder: (context) => MedicineBill_Manual(userName: userName,userPhone: userPhone,),
+                                      //builder: (context) => MedicineBillPage(userName: userName,userPhone: userPhone,),
                                     )),},
           ),
           ListTile(

@@ -61,60 +61,71 @@ class _LogsState extends State<Logs> {
   @override
   Widget build(BuildContext context) {
     if(loaded) {
-      return Container(
-          child: Column(
-              children: <Widget>[
-                ...addLogs(),
-              ]
-          )
-      );
+      if(data.length>0) {
+        return Container(
+            child: Column(
+                children: <Widget>[
+                  ...addLogs(),
+                ]
+            )
+        );
+      }
+      else
+      {
+        return Container(
+            child:Center(
+              child: Text("No logs found"),
+            )
+        );
+      }
     }
     else
     {
-      return Container(
-        color: const Color(0xFFFFE2E2),
-        child: Column(children: [
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 60.0, top: 70.0, right: 5.0),
-                child: Image.asset('assets/logo_text.png'),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-                left: 20.0, top: 80.0, right: 20.0, bottom: 50.0),
-            child:Row(
+        return Container(
+          color: const Color(0xFFFFE2E2),
+          child: Column(children: [
+            Row(
               children: [
-                Image.asset(
-                  'assets/splash_screen_img.png',
-                  width: 350.0,
-                  height: 300.0,
-                  fit: BoxFit.fill,
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 60.0, top: 70.0, right: 5.0),
+                  child: Image.asset('assets/logo_text.png'),
                 ),
               ],
-            ),),
-          Padding(
-            padding: const EdgeInsets.only(
-                left: 1.0, top: 50.0, right: 8.0, bottom: 50.0),
-          ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 20.0, top: 10.0, right: 8.0, bottom: 50.0),
-              ),
-              Image.asset(
-                'assets/hand_with_pill.png',
-                color: const Color(0xFFFFE2E2),
-                colorBlendMode: BlendMode.softLight,
-              ),
-            ],
-          ),
-        ]),
-      );
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 20.0, top: 80.0, right: 20.0, bottom: 50.0),
+              child: Row(
+                children: [
+                  Image.asset(
+                    'assets/splash_screen_img.png',
+                    width: 350.0,
+                    height: 300.0,
+                    fit: BoxFit.fill,
+                  ),
+                ],
+              ),),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 1.0, top: 50.0, right: 8.0, bottom: 50.0),
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 20.0, top: 10.0, right: 8.0, bottom: 50.0),
+                ),
+                Image.asset(
+                  'assets/hand_with_pill.png',
+                  color: const Color(0xFFFFE2E2),
+                  colorBlendMode: BlendMode.softLight,
+                ),
+              ],
+            ),
+          ]),
+        );
+
     }
   }
   List<Widget> addLogs()
@@ -132,17 +143,17 @@ class _LogsState extends State<Logs> {
             //border: TableBorder.all(width: 2.0, color: Colors.yellow),
               children: [
                 TableRow(children: <Widget>[
-                  Padding(
+                  /*Padding(
                     padding: const EdgeInsets.only(top: 5.0),
+                  ),*/
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2.0),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 5.0),
+                    padding: const EdgeInsets.only(top: 2.0),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 5.0),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5.0),
+                    padding: const EdgeInsets.only(top: 2.0),
                   ),
                 ]),
                 TableRow(
@@ -151,16 +162,16 @@ class _LogsState extends State<Logs> {
                             right: BorderSide(width: 2.0, color: Colors.white)),
                         color: const Color(0xFFFAC7C7)),
                     children: <Widget>[
-                      Padding(
+                      /*Padding(
                         padding: const EdgeInsets.only(top: 2.0),
                         child: Image(
                           image: AssetImage('assets/Gallery.png'),
                           height: 90.0,
                           width: 90.0,
                         ),
-                      ),
+                      ),*/
                       Padding(
-                          padding: const EdgeInsets.only(top: 5.0),
+                          padding: const EdgeInsets.only(top: 30.0,bottom: 20.0),
                           child: Center(
                               child: Text(
                                 data[i],
@@ -168,20 +179,21 @@ class _LogsState extends State<Logs> {
                                 textAlign: TextAlign.center,
                               ))),
                       Padding(
-                          padding: const EdgeInsets.only(top: 5.0),
+                          padding: const EdgeInsets.only(top: 30.0,bottom: 20.0),
                           child: Center(
                               child: Text(
                                 data[i+1],
                                 textScaleFactor: 1.2,
                                 textAlign: TextAlign.center,
                               ))),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 2.0),
+                      FlatButton(
+                        padding: const EdgeInsets.only(top: 10.0,bottom: 10.0),
                         child: Image(
                           image: AssetImage('assets/Megaphone.png'),
                           height: 60.0,
                           width: 50.0,
                         ),
+                        onPressed: ()=>{},
                       ),
                     ]),
               ]),
@@ -217,7 +229,60 @@ class _LogsState extends State<Logs> {
     List<Widget> eachMedicine = [];
     for(int i =0;i<logpopup.length;i+=4)
       {
-        eachMedicine.add(Table(
+        eachMedicine.add(
+          Container(
+              decoration: BoxDecoration(
+                  color: const Color(0xFFFAC7C7)),
+            child:Column(
+              children: [
+                Row(
+                  children:[Padding(
+                    padding: const EdgeInsets.only(top: 2.0),
+                    child: Center(
+                        child: Text("\u2022 "+
+                          logpopup[i],
+                          textScaleFactor: 1.2,
+                          textAlign: TextAlign.center,
+                        ))
+                )]),
+                Row(
+                    children:[
+                      if(logpopup[i+1]=="true")
+                      Padding(
+                          padding: const EdgeInsets.only(top: 2.0),
+                          child: Center(
+                              child: Text("Breakfast  ",
+                                textScaleFactor: 1.2,
+                                textAlign: TextAlign.center,
+                              ))
+                      ),
+                      if(logpopup[i+2]=="true")
+                      Padding(
+                          padding: const EdgeInsets.only(top: 2.0),
+                          child: Center(
+                              child: Text("Lunch  ",
+                                textScaleFactor: 1.2,
+                                textAlign: TextAlign.center,
+                              ))
+                      ),
+                      if(logpopup[i+3]=="true")
+                      Padding(
+                          padding: const EdgeInsets.only(top: 2.0),
+                          child: Center(
+                              child: Text("Dinner ",
+                                textScaleFactor: 1.2,
+                                textAlign: TextAlign.center,
+                              ))
+                      )]),
+                Row(
+                  children: [
+                    Padding(padding: const EdgeInsets.only(top: 5.0),)
+                  ],
+                ),
+              ],
+            )
+          )
+            /*Table(
             children: [
                 TableRow(
                     decoration: BoxDecoration(
@@ -232,6 +297,36 @@ class _LogsState extends State<Logs> {
                               textAlign: TextAlign.center,
                             ))
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2.0),
+                    ),
+                  ]
+                ),
+              TableRow(
+                  decoration: BoxDecoration(
+                      color: const Color(0xFFFAC7C7)),
+                  children: <Widget>[
+
+                /*Padding(
+                    padding: const EdgeInsets.only(top: 5.0),
+                  ),*/
+                Padding(
+                  padding: const EdgeInsets.only(top: 5.0),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 5.0),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 5.0),
+                ),
+              ]),
+              TableRow(
+                decoration: BoxDecoration(
+                    color: const Color(0xFFFAC7C7)),
+                children: [
                     Padding(
                         padding: const EdgeInsets.only(top: 0.0),
                         child: Center(
@@ -262,7 +357,7 @@ class _LogsState extends State<Logs> {
                   ],
                 ),
             ],
-          )
+          )*/
         );
       }
     return eachMedicine;

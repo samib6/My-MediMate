@@ -64,59 +64,72 @@ class _LogsState extends State<Logs> {
   @override
   Widget build(BuildContext context) {
     if (loaded) {
-      return Container(
-          child: Column(
-              children: <Widget>[
-                ...addLogs(),
-              ]
-          )
-      );
+      if(data.length>0) {
+        return Container(
+            child: Column(
+                children: <Widget>[
+                  ...addLogs(),
+                ]
+            )
+        );
+      }
+      else{
+        return Container(
+            color: const Color(0xFFFFE2E2),
+            child:Center(
+              child: Text("No logs found"),
+            )
+        );
+      }
     }
     else {
-      return Container(
-        color: const Color(0xFFFFE2E2),
-        child: Column(children: [
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 60.0, top: 70.0, right: 5.0),
-                child: Image.asset('assets/logo_text.png'),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-                left: 20.0, top: 80.0, right: 20.0, bottom: 50.0),
-            child: Row(
+
+        return Container(
+          color: const Color(0xFFFFE2E2),
+          child: Column(children: [
+            Row(
               children: [
-                Image.asset(
-                  'assets/splash_screen_img.png',
-                  width: 350.0,
-                  height: 300.0,
-                  fit: BoxFit.fill,
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 60.0, top: 70.0, right: 5.0),
+                  child: Image.asset('assets/logo_text.png'),
                 ),
               ],
-            ),),
-          Padding(
-            padding: const EdgeInsets.only(
-                left: 1.0, top: 50.0, right: 8.0, bottom: 50.0),
-          ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 20.0, top: 10.0, right: 8.0, bottom: 50.0),
-              ),
-              Image.asset(
-                'assets/hand_with_pill.png',
-                color: const Color(0xFFFFE2E2),
-                colorBlendMode: BlendMode.softLight,
-              ),
-            ],
-          ),
-        ]),
-      );
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 20.0, top: 80.0, right: 20.0, bottom: 50.0),
+              child: Row(
+                children: [
+                  Image.asset(
+                    'assets/splash_screen_img.png',
+                    width: 350.0,
+                    height: 300.0,
+                    fit: BoxFit.fill,
+                  ),
+                ],
+              ),),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 1.0, top: 50.0, right: 8.0, bottom: 50.0),
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 20.0, top: 10.0, right: 8.0, bottom: 50.0),
+                ),
+                Image.asset(
+                  'assets/hand_with_pill.png',
+                  color: const Color(0xFFFFE2E2),
+                  colorBlendMode: BlendMode.softLight,
+                ),
+              ],
+            ),
+          ]),
+        );
+
+
     }
   }
 

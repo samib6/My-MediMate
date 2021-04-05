@@ -364,6 +364,7 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
                         ),
                         onPressed: () {
                           file = null;
+                          _newVoiceText="";
                           setState(() {});
                         },
                       ),
@@ -378,14 +379,14 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
                 SizedBox(
                   height: 20.0,
                 ),
-                /*if (file != null)
+                if (file != null)
                   OutlineButton(
 
                     onPressed: startUpload,
                     //onLongPress: up_firebase,
                     color : const Color(0xFFFFC7C7),
                     child: Text('Upload Image'),
-                  ),*/
+                  ),
                 /*SizedBox(
                   height: 20.0,
                 ),*/
@@ -506,7 +507,7 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
             },
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async{
               if (_formKey.currentState.validate()) {
                 Scaffold.of(context).showSnackBar(SnackBar(
                   content: Text('Saving Data'),
@@ -518,53 +519,58 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
                 }
 
                */
-              }
-              startUpload();
+
+              await startUpload();
               String mediname="";
               String breakf="";
               String lunch="";
               String dinner="";
               int j=1;
               int fl=1;
-              for(int i=0;i<jsonsDataString.length-1;i++)
-              {
-                if(jsonsDataString[i]=='\'')
-                {
-                  j=i+1;
-                  mediname="";
-                  while(jsonsDataString[j]!='\'')
-                  {
-                    mediname =mediname+jsonsDataString[j];
+              for(int i=0;i<jsonsDataString.length-1;i++) {
+                if (jsonsDataString[i] == '\'') {
+                  j = i + 1;
+                  mediname = "";
+                  while (jsonsDataString[j] != '\'') {
+                    mediname = mediname + jsonsDataString[j];
                     j++;
                   }
-                  i=j+3;
+                  i = j + 3;
                   print(mediname);
-                  fl=0;
+                  fl = 0;
                 }
-                if(fl==0)
-                {
-                  breakf="";
-                  lunch="";
-                  dinner="";
-                  breakf=jsonsDataString[i+2]+"";
-                  lunch=jsonsDataString[i+5]+"";
-                  dinner=jsonsDataString[i+8]+"";
+                if (fl == 0) {
+                  breakf = "";
+                  lunch = "";
+                  dinner = "";
+                  breakf = jsonsDataString[i + 2] + "";
+                  lunch = jsonsDataString[i + 5] + "";
+                  dinner = jsonsDataString[i + 8] + "";
 
                   print(breakf);
                   print(lunch);
                   print(dinner);
-                  i=i+6;
-                  fl=1;
+                  i = i + 6;
+                  fl = 1;
                   print(userPhone);
                   print(diseaseName);
                   print(mediname);
-                  print((breakf=="0"?false:true).toString());
-                  print((lunch=="0"?false:true).toString());
-                  print((dinner=="0"?false:true).toString());
+                  print((breakf == "0" ? false : true).toString());
+                  print((lunch == "0" ? false : true).toString());
+                  print((dinner == "0" ? false : true).toString());
                   print(DateTime.now().toString());
                   print((day));
-                  d.savePrescription(userPhone, diseaseName, mediname, breakf=="0"?false:true, lunch=="0"?false:true, dinner=="0"?false:true, DateTime.now().toString().split(' ')[0],int.parse(day));
+                  d.savePrescription(
+                      userPhone,
+                      diseaseName,
+                      mediname,
+                      breakf == "0" ? false : true,
+                      lunch == "0" ? false : true,
+                      dinner == "0" ? false : true,
+                      DateTime.now().toString().split(' ')[0],
+                      int.parse(day));
                 }
+              }
               }
             },
             child: Text('Save'),

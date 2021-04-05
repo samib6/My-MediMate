@@ -23,23 +23,28 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3745eb05-831c-4595-a60d-0cbeb2845e28" name="Default Changelist" comment="Intergration 3">
-      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/faa04cdcc0c05a7d5e61ae89fb062d2f/debug_android_application.stamp" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/faa04cdcc0c05a7d5e61ae89fb062d2f/debug_android_application.stamp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/faa04cdcc0c05a7d5e61ae89fb062d2f/flutter_assets.d" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/faa04cdcc0c05a7d5e61ae89fb062d2f/flutter_assets.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
+    <list default="true" id="3745eb05-831c-4595-a60d-0cbeb2845e28" name="Default Changelist" comment="Intergration mostly final">
+      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/faa04cdcc0c05a7d5e61ae89fb062d2f/.filecache" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/faa04cdcc0c05a7d5e61ae89fb062d2f/.filecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/faa04cdcc0c05a7d5e61ae89fb062d2f/app.dill" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/faa04cdcc0c05a7d5e61ae89fb062d2f/app.dill" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/faa04cdcc0c05a7d5e61ae89fb062d2f/kernel_snapshot.d" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/faa04cdcc0c05a7d5e61ae89fb062d2f/kernel_snapshot.d" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/faa04cdcc0c05a7d5e61ae89fb062d2f/kernel_snapshot.stamp" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/faa04cdcc0c05a7d5e61ae89fb062d2f/kernel_snapshot.stamp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.packages" beforeDir="false" afterPath="$PROJECT_DIR$/.packages" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Database.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Database.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/MedicineReminder.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/MedicineReminder.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/app/intermediates/flutter/debug/flutter_assets/kernel_blob.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/intermediates/flutter/debug/flutter_assets/kernel_blob.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/app/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/app/intermediates/merged_assets/debug/out/flutter_assets/kernel_blob.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/intermediates/merged_assets/debug/out/flutter_assets/kernel_blob.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/app/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/outputs/apk/debug/app-debug.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app-debug.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app.apk" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app.apk.sha1" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app.apk.sha1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/f872507f30e2ff2523f0f1d19160266e.cache.dill.track.dill" beforeDir="false" afterPath="$PROJECT_DIR$/build/f872507f30e2ff2523f0f1d19160266e.cache.dill.track.dill" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Prescription_image.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Prescription_image.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/Profile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Profile.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/dashboard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/dashboard.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/medical_logs.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/medical_logs.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/navbar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/navbar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/prescription_logs.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/prescription_logs.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,6 +73,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="dart.analysis.tool.window.force.activate" value="true" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../chal ja bhai/My-MediMate" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
@@ -140,7 +146,21 @@
       <option name="project" value="LOCAL" />
       <updated>1617116013108</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Intergration mostly final">
+      <created>1617139521387</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1617139521387</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Intergration mostly final">
+      <created>1617139560748</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1617139560748</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -161,7 +181,8 @@
     <MESSAGE value="Intergration 1" />
     <MESSAGE value="Intergration 2" />
     <MESSAGE value="Intergration 3" />
-    <option name="LAST_COMMIT_MESSAGE" value="Intergration 3" />
+    <MESSAGE value="Intergration mostly final" />
+    <option name="LAST_COMMIT_MESSAGE" value="Intergration mostly final" />
   </component>
   <component name="WindowStateProjectService">
     <state x="363" y="208" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1613396123569">
@@ -176,30 +197,30 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="580" y="185" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1616323414359" />
-    <state width="1557" height="276" key="GridCell.Tab.0.bottom" timestamp="1617139374036">
+    <state width="1557" height="266" key="GridCell.Tab.0.bottom" timestamp="1617658093834">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="276" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1617139374036" />
-    <state width="1557" height="276" key="GridCell.Tab.0.center" timestamp="1617139374036">
+    <state width="1557" height="266" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1617658093834" />
+    <state width="1557" height="266" key="GridCell.Tab.0.center" timestamp="1617658093834">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="276" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1617139374036" />
-    <state width="1557" height="276" key="GridCell.Tab.0.left" timestamp="1617139374036">
+    <state width="1557" height="266" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1617658093834" />
+    <state width="1557" height="266" key="GridCell.Tab.0.left" timestamp="1617658093834">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="276" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1617139374036" />
-    <state width="1557" height="276" key="GridCell.Tab.0.right" timestamp="1617139374036">
+    <state width="1557" height="266" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1617658093834" />
+    <state width="1557" height="266" key="GridCell.Tab.0.right" timestamp="1617658093834">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="276" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1617139374036" />
+    <state width="1557" height="266" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1617658093834" />
     <state x="301" y="75" key="SettingsEditor" timestamp="1613213335020">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="301" y="75" key="SettingsEditor/0.0.1600.860@0.0.1600.860" timestamp="1613213335020" />
-    <state x="392" y="163" key="Vcs.Push.Dialog.v2" timestamp="1617116035786">
+    <state x="392" y="163" key="Vcs.Push.Dialog.v2" timestamp="1617139571719">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="392" y="163" key="Vcs.Push.Dialog.v2/0.0.1600.860@0.0.1600.860" timestamp="1617116035786" />
+    <state x="392" y="163" key="Vcs.Push.Dialog.v2/0.0.1600.860@0.0.1600.860" timestamp="1617139571719" />
     <state x="406" y="95" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1617092613953">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -208,5 +229,16 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="463" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1613213146553" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/signup.dart</url>
+          <line>79</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

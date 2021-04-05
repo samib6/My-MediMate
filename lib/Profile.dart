@@ -299,7 +299,7 @@ class _ProfileFormState extends State<ProfileForm> {
           SizedBox(height: 20,),
           ..._getFriends(),
           SizedBox(height: 40,),
-          RaisedButton(
+          /*RaisedButton(
             color:const Color(0xFFFFC7C7),
             child: Text("Change Language"),
             onPressed:(){
@@ -308,7 +308,7 @@ class _ProfileFormState extends State<ProfileForm> {
                 builder: (BuildContext context) => _buildAboutDialog(context),
               );
             } ,
-          ),
+          ),*/
           ElevatedButton(
             onPressed: (){
               if(_formKey.currentState.validate()){

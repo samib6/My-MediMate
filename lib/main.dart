@@ -232,7 +232,9 @@ class _SplashPageState extends State<SplashPage> {
             }
             else
             {
-              Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => SelectLanguagePage()));
+              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                  SignUp()), (Route<dynamic> route) => false);
+              //Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => SelectLanguagePage()));
               //Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) =>Prescription_Manual(userName: "Sameeksha",userPhone: "+919833515264",)));
               //Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) =>MedicineReminder(userPhone: "+919833515264",)));
             }
