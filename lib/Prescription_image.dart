@@ -84,7 +84,8 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
 
   get isStopped => ttsState == TtsState.stopped;
 
-
+  bool uploadImage =false;
+  bool uploadfail = false;
 
   initTts() {
     flutterTts = FlutterTts();
@@ -139,9 +140,9 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
   chooseImage() async {
     setState(() {
       file = ImagePicker.pickImage(source: ImageSource.gallery);
-
+      setStatus('');
     });
-    setStatus('');
+
 
     /*
     StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child(file);
@@ -194,6 +195,13 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
         // Map jsonData = json.decode(jsonsDataString) as Map;
         print("check");
         print(jsonsDataString);
+        setStatus("Image Uploaded");
+        if(jsonsDataString.toString().length<=3) {
+          //print(jsonsDataString.toString().length);
+          setState(() {
+            uploadfail = true;
+          });
+        }
         //print(jsonsDataString.key);
 
 
@@ -365,7 +373,7 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
                         onPressed: () {
                           file = null;
                           _newVoiceText="";
-                          setState(() {});
+                          setState(() {setStatus('');});
                         },
                       ),
 
@@ -387,6 +395,14 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
                     color : const Color(0xFFFFC7C7),
                     child: Text('Upload Image'),
                   ),
+                if(status!='')
+                  Text(status,style: TextStyle(color: Colors.green),),
+                if(uploadfail)
+                  Text("Cannot recognize the image try entering manually",
+                  style: TextStyle(color: Colors.red),),
+                if(uploadImage)
+                  Text("Please upload the image first",
+                    style: TextStyle(color: Colors.red),),
                 /*SizedBox(
                   height: 20.0,
                 ),*/
@@ -448,7 +464,10 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
             child: Text("Read Prescription from Image"),
             onPressed: () async{
               if (file!= null) {
-                await startUpload();
+                if(jsonsDataString.toString().length<=3 || jsonsDataString==null)
+                  setState(() {
+                    uploadImage = true;
+                  });
                 _newVoiceText = "";
                 String mediname = "";
                 String breakf = "";
@@ -520,7 +539,11 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
 
                */
 
-              await startUpload();
+              //await startUpload();
+                if(jsonsDataString.toString().length<=3 || jsonsDataString==null)
+                  setState(() {
+                    uploadImage = true;
+                  });
               String mediname="";
               String breakf="";
               String lunch="";
@@ -609,17 +632,17 @@ class _PrescriptionImageFormState extends State<PrescriptionImageForm> {
   _imgFromCamera() async {
     setState(() {
       file = ImagePicker.pickImage(source: ImageSource.camera);
-
+      setStatus('');
     });
-    setStatus('');
+
   }
 
   _imgFromGallery() async {
     setState(() {
       file = ImagePicker.pickImage(source: ImageSource.gallery);
-
+      setStatus('');
     });
-    setStatus('');
+
   }
 
 

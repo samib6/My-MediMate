@@ -14,6 +14,7 @@ import 'package:timezone/timezone.dart' as tz;
 //import 'package:telephony/telephony.dart';
 
 
+
 class ProfilePage extends StatefulWidget {
   String userName;
   String userPhone;
@@ -78,7 +79,6 @@ class ReceivedNotification {
 }
 
 String selectedNotificationPayload;
-
 class _ProfileFormState extends State<ProfileForm> {
   String userName;
   String userPhone;
@@ -91,7 +91,7 @@ class _ProfileFormState extends State<ProfileForm> {
   TimeOfDay dinnerTime = TimeOfDay(hour: 20,minute: 30);
   //Notifi n = new Notifi();
   //final telephony = Telephony.instance;
-
+  String Gender="Male";
   TextEditingController _nameController;
   TextEditingController _numberController;
   static List<String> friendsList = [null];
@@ -123,6 +123,7 @@ class _ProfileFormState extends State<ProfileForm> {
     _configureSelectNotificationSubject();
     _configureDidReceiveLocalNotificationSubject();
   }
+
   Future<void> scheduleDailyTenAMNotification(int hr,int min,int sec,int id) async {
     print("inside noti");
     String checktime;
@@ -243,8 +244,11 @@ class _ProfileFormState extends State<ProfileForm> {
                 hintText: userPhone.substring(3),
               ),
               validator: (value){
-                if (value.isEmpty){
+                if(value.isEmpty){
                   return null;
+                }
+                else if (value!=userPhone.substring(3)){
+                  return "Please enter the registered Mobile Number";
                   //return 'Please enter your Phone Number';
                 }
                 userPhone = "+91"+value;
@@ -252,6 +256,40 @@ class _ProfileFormState extends State<ProfileForm> {
               },
             ),
           ),
+          Padding(padding: const EdgeInsets.only(left: 20.0,top:10),
+          child :Column(
+              crossAxisAlignment:CrossAxisAlignment.start,
+              children: <Widget>[
+            Text(
+              'Gender:',
+              style: new TextStyle(fontSize: 16.0),
+            ),
+            Row(
+              children: <Widget>[
+                Radio(
+
+                    value: "Male",
+                    groupValue: Gender,
+                    onChanged:(value){setState(() {
+                      Gender=value;
+                    });}),
+                Text(
+                  "Male",
+                  style: new TextStyle(                    fontSize: 14.0,                  ),
+                ),
+                Radio(
+                    value: "Female",
+                    groupValue: Gender,
+                    onChanged: (value){setState(() {
+                      Gender=value;
+                    });}),
+                Text(
+                  "Female",
+                  style: new TextStyle(                    fontSize: 14.0,                  ),
+                ),
+              ],
+            )
+          ])),
           ListTile(
             leading: const Icon(Icons.today),
             title : Text("Birthday"),
@@ -311,8 +349,8 @@ class _ProfileFormState extends State<ProfileForm> {
           ),*/
           ElevatedButton(
             onPressed: (){
-              if(_formKey.currentState.validate()){
-                d.saveProfile(userPhone, userName,(selectedDate).toString().substring(0,10) , (breakfastTime).format(context), (lunchTime).format(context), (dinnerTime).format(context), friendsList, NumbersList);
+              if(_formKey.currentState.validate()) {
+                d.saveProfile(userPhone, userName,(selectedDate).toString().substring(0,10) ,Gender, (breakfastTime).format(context), (lunchTime).format(context), (dinnerTime).format(context), friendsList, NumbersList);
                 scheduleDailyTenAMNotification(breakfastTime.hour,breakfastTime.minute,00,0);
                 scheduleDailyTenAMNotification(lunchTime.hour,lunchTime.minute,00,1);
                 scheduleDailyTenAMNotification(dinnerTime.hour,dinnerTime.minute,00,2);

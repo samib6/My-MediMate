@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'navbar.dart';
 import 'Database.dart';
+
+enum TtsState { playing, stopped }
 
 class Prescription_Logs extends StatefulWidget {
   String userName;
@@ -44,6 +47,74 @@ class _LogsState extends State<Logs> {
   Database d = new Database();
   List<String> data;
   bool loaded = false;
+  FlutterTts flutterTts;
+  dynamic languages;
+  String language;
+  double volume = 0.5;
+  double pitch = 1.0;
+  double rate = 1.0;
+
+  String _newVoiceText;
+
+  TtsState ttsState = TtsState.stopped;
+
+  get isPlaying => ttsState == TtsState.playing;
+
+  get isStopped => ttsState == TtsState.stopped;
+
+
+
+
+  initTts() {
+    flutterTts = FlutterTts();
+
+    _getLanguages();
+
+    flutterTts.setStartHandler(() {
+      setState(() {
+        print("playing");
+        ttsState = TtsState.playing;
+      });
+    });
+
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        print("Complete");
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    flutterTts.setErrorHandler((msg) {
+      setState(() {
+        print("error: $msg");
+        ttsState = TtsState.stopped;
+      });
+    });
+  }
+
+  Future _getLanguages() async {
+    languages = await flutterTts.getLanguages;
+    print("pritty print ${languages}");
+    if (languages != null) setState(() => languages);
+  }
+
+  Future _speak() async {
+    await flutterTts.setVolume(volume);
+    await flutterTts.setSpeechRate(rate);
+    await flutterTts.setPitch(pitch);
+
+    if (_newVoiceText != null) {
+      if (_newVoiceText.isNotEmpty) {
+        var result = await flutterTts.speak(_newVoiceText);
+        if (result == 1) setState(() => ttsState = TtsState.playing);
+      }
+    }
+  }
+
+  Future _stop() async {
+    var result = await flutterTts.stop();
+    if (result == 1) setState(() => ttsState = TtsState.stopped);
+  }
 
   void check() async{
     data = await d.getMedicineLogs(userPhone);
@@ -55,8 +126,16 @@ class _LogsState extends State<Logs> {
   @override
   void initState() {
     check();
+    initTts();
+    flutterTts.setLanguage("hi-IN");
     // TODO: implement initState
     super.initState();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    flutterTts.stop();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -82,9 +161,11 @@ class _LogsState extends State<Logs> {
     else
     {
         return Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
           color: const Color(0xFFFFE2E2),
           child: Column(children: [
-            Row(
+            /*Row(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(
@@ -92,15 +173,15 @@ class _LogsState extends State<Logs> {
                   child: Image.asset('assets/logo_text.png'),
                 ),
               ],
-            ),
+            ),*/
             Padding(
               padding: const EdgeInsets.only(
-                  left: 20.0, top: 80.0, right: 20.0, bottom: 50.0),
+                  left: 20.0, top: 80.0, right: 20.0),
               child: Row(
                 children: [
                   Image.asset(
                     'assets/splash_screen_img.png',
-                    width: 350.0,
+                    width: MediaQuery.of(context).size.width-40,
                     height: 300.0,
                     fit: BoxFit.fill,
                   ),
@@ -193,7 +274,29 @@ class _LogsState extends State<Logs> {
                           height: 60.0,
                           width: 50.0,
                         ),
-                        onPressed: ()=>{},
+                        onPressed: ()async{
+                          List<String> logvoice = await d.getMedicineLogsinfo(userPhone, data[i+2], data[i], data[i+1]);
+                          _newVoiceText="";
+                          for(int i =0;i<logvoice.length;i+=4)
+                            {
+                              _newVoiceText+="Take "+logvoice[i];
+                              if(logvoice[i+1]=="true")
+                                {
+                                  _newVoiceText+=", 1 after Breakfast";
+                                }
+                              if(logvoice[i+2]=="true")
+                              {
+                                _newVoiceText+=", 1 after Lunch";
+                              }
+                              if(logvoice[i+3]=="true")
+                              {
+                                _newVoiceText+=", 1 after Dinner";
+                              }
+                              _newVoiceText+=".";
+                            }
+                          print(_newVoiceText);
+                          _speak();
+                        },
                       ),
                     ]),
               ]),

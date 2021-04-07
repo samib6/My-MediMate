@@ -250,14 +250,17 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
       color: const Color(0xFFFFE2E2),
       child: Column(children: [
         Row(
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                  left: 60.0, top: 70.0, right: 5.0),
-              child: Image.asset('assets/logo_text.png'),
+                  left: 20.0, top: 70.0, right: 20.0),
+              child: Image.asset('assets/logo_text.png',
+              width: MediaQuery.of(context).size.width-40,),
             ),
             /*Text("My MediMate",
                 textAlign: TextAlign.center,
@@ -271,12 +274,12 @@ class _SplashPageState extends State<SplashPage> {
         ),
         Padding(
           padding: const EdgeInsets.only(
-              left: 20.0, top: 80.0, right: 20.0, bottom: 50.0),
+              left: 20.0, top: 80.0, right: 20.0),
           child:Row(
             children: [
               Image.asset(
                 'assets/splash_screen_img.png',
-                width: 350.0,
+                width: MediaQuery.of(context).size.width-40,
                 height: 300.0,
                 fit: BoxFit.fill,
               ),

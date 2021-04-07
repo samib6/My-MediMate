@@ -48,6 +48,7 @@ class _DashboardState extends State<Dashboard> {
 
 
 
+
   initTts() {
     flutterTts = FlutterTts();
 
@@ -146,6 +147,8 @@ class _DashboardState extends State<Dashboard> {
   }
   @override
   Widget build(BuildContext context) {
+    double cardWidth = MediaQuery.of(context).size.width / 1;
+    double cardHeight = MediaQuery.of(context).size.height / 2;
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -168,10 +171,9 @@ class _DashboardState extends State<Dashboard> {
             child: Column(
               children: <Widget>[
                 ListTile(
-                  contentPadding: EdgeInsets.only(left: 30, right: 20, top: 50),
+                  contentPadding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.058),
                   title: 
                   Image.asset('assets/womanavatar.png',width:100,height:60),
-                       
                   subtitle:
                   Text(
                     ''+userName.toString(),
@@ -195,7 +197,7 @@ class _DashboardState extends State<Dashboard> {
                       crossAxisSpacing: 16,
                       mainAxisSpacing: 16,
                       crossAxisCount: 2,
-                      childAspectRatio: 1.0,
+                      childAspectRatio: cardWidth / cardHeight,
                       children: <Widget>[
                         Padding(
                           padding:
@@ -204,7 +206,7 @@ class _DashboardState extends State<Dashboard> {
                             color: const Color(0xFFFAC7C7),
                             elevation: 5,
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
+                                borderRadius: BorderRadius.circular(12),),
                             child: InkWell(
                               onTap: () {
                                 Navigator.push(

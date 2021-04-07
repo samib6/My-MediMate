@@ -60,12 +60,13 @@ class Database {
     }
   }
   
-  Future <void> saveProfile(String PhoneNumber, String UserName, String Birthdate, String BreakfastTime, String LunchTime, String DinnerTime, List<String> PeerName, List<String> PeerNumber)
+  Future <void> saveProfile(String PhoneNumber, String UserName, String Birthdate,String Gender, String BreakfastTime, String LunchTime, String DinnerTime, List<String> PeerName, List<String> PeerNumber)
   {
     try{
       var id = databaseReference.child(PhoneNumber).child("Profile").set({
         'Name': UserName,
         'Birthdate': Birthdate,
+        'Gender' : Gender,
         'BreakfastTime': BreakfastTime,
         'LunchTime': LunchTime,
         'DinnerTime': DinnerTime,

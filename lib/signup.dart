@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:medi_mate/Profile.dart';
 import 'Login.dart';
 import 'otp.dart';
 import 'prescription_logs.dart';
@@ -20,6 +21,7 @@ class _SignUpState extends State<SignUp> {
   final _phoneController = TextEditingController();
   final _userController = TextEditingController();
   final _codeController = TextEditingController();
+  bool error = false;
   FirebaseUser user;
   Database d = new Database();
   Future<bool> loginUser(String phone, BuildContext context) async{
@@ -38,15 +40,17 @@ class _SignUpState extends State<SignUp> {
           if(user != null){
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
                 Dashboard(userPhone: mobileNumber,userName: username,)), (Route<dynamic> route) => false);
+            error = false;
           }else{
             print("Error");
           }
-
           //This callback would gets called when verification is done auto maticlly
         },
         verificationFailed: (AuthException exception){
+          error = true;
+          setState(() {});
           print(exception);
-          print('Phone number verification failed. Code: ${exception.code}. Message: ${exception.message}');
+          //print('Phone number verification failed. Code: ${exception.code}. Message: ${exception.message}');
         },
         codeSent: (String verificationId, [int forceResendingToken]){
           showDialog(
@@ -61,6 +65,9 @@ class _SignUpState extends State<SignUp> {
                       TextField(
                         controller: _codeController,
                       ),
+                      if(error)
+                        Text("Entered OTP is incorrect",
+                        style: TextStyle(color: Colors.red),),
                     ],
                   ),
                   actions: <Widget>[
@@ -80,6 +87,8 @@ class _SignUpState extends State<SignUp> {
                           d.saveUser(username, mobileNumber);
                           Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
                               Dashboard(userPhone: mobileNumber,userName: username,)), (Route<dynamic> route) => false);
+                          Navigator.push(context,  MaterialPageRoute(builder: (context) =>ProfilePage(userName: username, userPhone: mobileNumber)));
+                          error=false;
                         }else{
                           print("Error");
                         }
@@ -183,6 +192,10 @@ class _SignUpState extends State<SignUp> {
                       if (value.isEmpty) {
                         return 'Please enter Mobile Number';
                       }
+                      if (value.length!=10)
+                        {
+                          return 'Please enter a valid Mobile Number';
+                        }
                       mobileNumber = "+91"+value;
                       return null;
                     },
